@@ -1,6 +1,9 @@
 package com.int221.backend.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -9,5 +12,5 @@ import java.io.Serializable;
  */
 @Data
 public class CategoryDto implements Serializable {
-    private final String categoryName;
+    private String categoryName;
 }

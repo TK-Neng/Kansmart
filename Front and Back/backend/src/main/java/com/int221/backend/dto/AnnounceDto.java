@@ -1,6 +1,8 @@
 package com.int221.backend.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -10,11 +12,13 @@ import java.time.Instant;
  */
 @Data
 public class AnnounceDto implements Serializable {
-    private final Integer id;
-    private final String announcementTitle;
-    private final String announcementDescription;
-    private final String publishDate;
-    private final String closeDate;
-    private final String announcementDisplay;
-    private final CategoryDto category;
+    private  Integer id;
+    private  String announcementTitle;
+    private  String announcementDescription;
+    private  String publishDate;
+    private  String closeDate;
+    private  String announcementDisplay;
+
+    @JsonIgnore
+    private  CategoryDto category;
 }

@@ -9,5 +9,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface AnnounceRepository extends JpaRepository<Announce, Integer> {
-    Set<Announce> findByCategory_CategoryName(String categoryName);
+
+
 }
