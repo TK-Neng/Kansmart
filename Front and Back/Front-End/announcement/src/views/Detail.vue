@@ -16,7 +16,6 @@ onBeforeMount(async () => {
   date1 = date1.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
   data.value.publishDate = date;
   data.value.closeDate = date1;
-  category.value = data.value.category.categoryName;
 });
 </script>
 
@@ -36,7 +35,7 @@ onBeforeMount(async () => {
       </div>
       <div class="ml-20">
         <p class="mt-5 ml-4">{{ data.announcementTitle }}</p>
-        <p class="mt-5 ml-4">{{ category }}</p>
+        <p class="mt-5 ml-4">{{ data.announcementCategory }}</p>
         <p class="mt-5 ml-4">{{ data.announcementDescription }}</p>
         <p class="mt-5 ml-4">{{ data.publishDate }}</p>
         <p class="mt-5 ml-4">{{ data.closeDate }}</p>

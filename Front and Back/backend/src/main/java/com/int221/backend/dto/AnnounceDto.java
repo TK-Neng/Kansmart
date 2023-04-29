@@ -20,22 +20,11 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 public class AnnounceDto implements Serializable {
 
-
     private  Integer id;
     private  String announcementTitle;
     private  String announcementDescription;
-
-
-
     private ZonedDateTime publishDate;
-
-
-
     private  ZonedDateTime closeDate;
-
-
     private  String announcementDisplay;
-
-    @JsonIgnore
-    private  CategoryDto category;
+    private  String announcementCategory;
 }

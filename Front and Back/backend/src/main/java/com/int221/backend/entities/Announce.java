@@ -38,6 +38,6 @@ public class Announce {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "categories_categoryId", nullable = false)
-    private Category category;
+    private Category announcementCategory;
 
 }

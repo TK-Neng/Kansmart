@@ -72,7 +72,7 @@ const checkEmpty = () => {
               {{ item.announcementTitle }}
             </th>
             <th>
-              {{ item.category.categoryName }}
+              {{ item.announcementCategory }}
             </th>
             <th>
               {{ item.publishDate }}
