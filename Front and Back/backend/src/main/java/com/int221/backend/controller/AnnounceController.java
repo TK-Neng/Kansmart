@@ -6,15 +6,13 @@ import com.int221.backend.mapper.ListMapper;
 import com.int221.backend.services.AnnounceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/announcements")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AnnounceController {
     @Autowired
     private AnnounceService service;

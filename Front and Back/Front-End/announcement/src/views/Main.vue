@@ -5,7 +5,16 @@ import { ref, onMounted, onBeforeMount } from "vue";
 const data = ref([]);
 onBeforeMount(async () => {
   data.value = await getData();
- 
+
+  for(let i = 0; i < data.value.length; i++){
+    let date = new Date( data.value[i].publishDate);
+    let date1 = new Date( data.value[i].closeDate);
+    date = date.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+    date1 = date1.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+    data.value[i].publishDate = date;
+    data.value[i].closeDate = date1;
+  }
+
 });
 
 const isShow = ref(false);
@@ -21,6 +30,7 @@ const checkEmpty = () => {
     colseShow.value = false;
   }
 };
+
 
 
 </script>

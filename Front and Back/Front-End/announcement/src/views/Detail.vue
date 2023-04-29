@@ -5,12 +5,18 @@ import { ref, onMounted, onBeforeMount } from "vue";
 
 const route = useRoute();
 
-// รับ id มาจาก url เข้ามาเป็นตัวแปร id
 const id = route.query.id;
 const data = ref([]);
+const category = ref();
 onBeforeMount(async () => {
   data.value = await getDataById(id);
-  console.log(data.value);
+  let date = new Date( data.value.publishDate);
+  let date1 = new Date( data.value.closeDate);
+  date = date.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+  date1 = date1.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+  data.value.publishDate = date;
+  data.value.closeDate = date1;
+  category.value = data.value.category.categoryName;
 });
 </script>
 
@@ -30,7 +36,7 @@ onBeforeMount(async () => {
       </div>
       <div class="ml-20">
         <p class="mt-5 ml-4">{{ data.announcementTitle }}</p>
-        <p class="mt-5 ml-4">{{ data.category.categoryName }}</p>
+        <p class="mt-5 ml-4">{{ category }}</p>
         <p class="mt-5 ml-4">{{ data.announcementDescription }}</p>
         <p class="mt-5 ml-4">{{ data.publishDate }}</p>
         <p class="mt-5 ml-4">{{ data.closeDate }}</p>
