@@ -17,6 +17,14 @@ onBeforeMount(async () => {
 
 });
 
+for(let i =0; i< data.value.length ; i++){
+  if(data.value[i].announcementDisplay === "N"){
+    data.value[i].publishDate = "-"
+    data.value[i].closeDate = "-"
+  }
+}
+
+
 const isShow = ref(false);
 const colseShow = ref(false);
 
@@ -31,8 +39,7 @@ const checkEmpty = () => {
   }
 };
 
-
-
+checkEmpty();
 </script>
 
 <template>
@@ -43,7 +50,6 @@ const checkEmpty = () => {
     <div class="mt-4 flex flex-row ml-1">
       <p class="font-bold">Date/Time shown in Timezone :</p>
       <p class="ml-1">Asia/Bangkok</p>
-      <button @click="checkEmpty" class=" ml-10  bg-gray-300 rounded text-lg font-bold hover:bg-gray-500">load</button>
     </div>
     <div v-show="colseShow">
         <div class="flex flex-col items-center justify-center">

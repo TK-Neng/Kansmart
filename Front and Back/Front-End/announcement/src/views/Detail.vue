@@ -17,6 +17,11 @@ onBeforeMount(async () => {
   data.value.publishDate = date;
   data.value.closeDate = date1;
 });
+
+if(data.value.announcementDisplay === "N"){
+  data.value.publishDate = "-"
+  data.value.closeDate = "-"
+}
 </script>
 
 <template>
