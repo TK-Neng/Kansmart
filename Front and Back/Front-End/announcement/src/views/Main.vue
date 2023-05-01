@@ -18,7 +18,7 @@ onBeforeMount(async () => {
 });
 
 for(let i =0; i< data.value.length ; i++){
-  if(data.value[i].announcementDisplay === "N"){
+  if(data.value[i].announcementDisplay === "N" || data.value[i].announcementDisplay === null){
     data.value[i].publishDate = "-"
     data.value[i].closeDate = "-"
   }
