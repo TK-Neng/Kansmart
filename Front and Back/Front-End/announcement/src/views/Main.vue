@@ -3,33 +3,38 @@ import { getData } from "../composable/getData";
 import { ref, onMounted, onBeforeMount } from "vue";
 
 const data = ref([]);
+
+const isShow = ref(false);
+const colseShow = ref(false);
 onBeforeMount(async () => {
   data.value = await getData();
 
   for(let i = 0; i < data.value.length; i++){
-    let date = new Date( data.value[i].publishDate);
-    let date1 = new Date( data.value[i].closeDate);
-    date = date.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
-    date1 = date1.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
-    data.value[i].publishDate = date;
-    data.value[i].closeDate = date1;
-  }
-
-});
-
-for(let i =0; i< data.value.length ; i++){
-  if(data.value[i].announcementDisplay === "N" || data.value[i].announcementDisplay === null){
+    if(data.value[i].announcementDisplay === "N"){
     data.value[i].publishDate = "-"
     data.value[i].closeDate = "-"
+    }
+    else if(data.value[i].publishDate === null){
+     data.value[i].publishDate = "-"
+    }
+    else if(data.value[i].closeDate === null){
+     data.value[i].closeDate = "-"
+    }
+
+
+    if(data.value[i].publishDate !== "-" ){
+      let date = new Date( data.value[i].publishDate);
+      date = date.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      data.value[i].publishDate = date;
+    }
+    if(data.value[i].closeDate !== "-"){
+      let date1 = new Date( data.value[i].closeDate);
+      date1 = date1.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      data.value[i].closeDate = date1;
+    }
   }
-}
 
-
-const isShow = ref(false);
-const colseShow = ref(false);
-
-
-const checkEmpty = () => {
+  const checkEmpty = () => {
   if (data.value.length == 0) {
     isShow.value = false;
     colseShow.value = true;
@@ -37,9 +42,10 @@ const checkEmpty = () => {
     isShow.value = true;
     colseShow.value = false;
   }
-};
+  };
+  checkEmpty();
+});
 
-checkEmpty();
 </script>
 
 <template>

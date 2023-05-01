@@ -10,18 +10,30 @@ const data = ref([]);
 const category = ref();
 onBeforeMount(async () => {
   data.value = await getDataById(id);
-  let date = new Date( data.value.publishDate);
-  let date1 = new Date( data.value.closeDate);
-  date = date.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
-  date1 = date1.toLocaleString("th-TH", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
-  data.value.publishDate = date;
-  data.value.closeDate = date1;
+  if(data.value.announcementDisplay === "N"){
+    data.value.publishDate = "-"
+    data.value.closeDate = "-"
+    }
+    else if(data.value.publishDate === null){
+     data.value.publishDate = "-"
+    }
+    else if(data.value.closeDate === null){
+     data.value.closeDate = "-"
+    }
+
+
+    if(data.value.publishDate !== "-" ){
+      let date = new Date( data.value.publishDate);
+      date = date.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      data.value.publishDate = date;
+    }
+    if(data.value.closeDate !== "-"){
+      let date1 = new Date( data.value.closeDate);
+      date1 = date1.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      data.value.closeDate = date1;
+    }
 });
 
-if(data.value.announcementDisplay === "N" || data.value.announcementDisplay === null){
-  data.value.publishDate = "-"
-  data.value.closeDate = "-"
-}
 </script>
 
 <template>
