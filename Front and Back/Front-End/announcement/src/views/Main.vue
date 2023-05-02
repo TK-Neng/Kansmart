@@ -24,12 +24,12 @@ onBeforeMount(async () => {
 
     if(data.value[i].publishDate !== "-" ){
       let date = new Date( data.value[i].publishDate);
-      date = date.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      date = date.toLocaleString("en-UK", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
       data.value[i].publishDate = date;
     }
     if(data.value[i].closeDate !== "-"){
       let date1 = new Date( data.value[i].closeDate);
-      date1 = date1.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      date1 = date1.toLocaleString("en-UK", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
       data.value[i].closeDate = date1;
     }
   }
@@ -45,6 +45,8 @@ onBeforeMount(async () => {
   };
   checkEmpty();
 });
+let showTimeZone = ref()
+showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 </script>
 
@@ -55,7 +57,7 @@ onBeforeMount(async () => {
     </div>
     <div class="mt-4 flex flex-row ml-1">
       <p class="font-bold">Date/Time shown in Timezone :</p>
-      <p class="ml-1">Asia/Bangkok</p>
+      <p class="ml-1">{{ showTimeZone }}</p>
     </div>
     <div v-show="colseShow">
         <div class="flex flex-col items-center justify-center">

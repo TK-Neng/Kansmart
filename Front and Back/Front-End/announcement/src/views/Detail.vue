@@ -24,12 +24,12 @@ onBeforeMount(async () => {
 
     if(data.value.publishDate !== "-" ){
       let date = new Date( data.value.publishDate);
-      date = date.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      date = date.toLocaleString("en-UK", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
       data.value.publishDate = date;
     }
     if(data.value.closeDate !== "-"){
       let date1 = new Date( data.value.closeDate);
-      date1 = date1.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+      date1 = date1.toLocaleString("en-UK", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
       data.value.closeDate = date1;
     }
 });

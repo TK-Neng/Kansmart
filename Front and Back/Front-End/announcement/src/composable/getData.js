@@ -1,6 +1,6 @@
 const getData = async () => {
   try {
-    const res = await fetch("http://localhost:8080/api/announcements");
+    const res = await fetch("http://localhost:8080/api/pl1/announcements");
     if (res.ok) {
       const data = res.json();
       return data;
@@ -14,7 +14,7 @@ const getData = async () => {
 
 const getDataById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:8080/api/announcements/${id}`);
+    const res = await fetch(`http://localhost:8080/api/pl1/announcements/${id}`);
     if (res.ok) {
       const data = res.json();
       return data;
