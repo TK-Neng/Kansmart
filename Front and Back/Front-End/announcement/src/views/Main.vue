@@ -80,7 +80,7 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           </tr>
           <tr v-for="(item, index) of data" :key="index">
             <th>
-              {{ item.id }}
+              {{ index+1 }}
             </th>
             <th>
               {{ item.announcementTitle }}

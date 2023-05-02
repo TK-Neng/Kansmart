@@ -19,7 +19,7 @@ public class AnnounceService {
     
 
     public List<Announce> getAllAnnounce() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "publishDate"));
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "publishDate","closeDate"));
     }
 
     public Announce getAnnounce(Integer id){
