@@ -5,10 +5,13 @@ import { ref, onMounted, onBeforeMount } from "vue";
 const data = ref([]);
 
 const isShow = ref(false);
+const isCheck404 = ref(false);
 const colseShow = ref(false);
 onBeforeMount(async () => {
   data.value = await getData();
-
+  if(data.value === 404){
+    isCheck404.value = true;
+  }
   for(let i = 0; i < data.value.length; i++){
     if(data.value[i].announcementDisplay === "N"){
     data.value[i].publishDate = "-"
@@ -109,6 +112,29 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       </table>
     </div>
   </div>
+
+  <div v-show = "isCheck404">
+       <div class="popup">
+            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-screen h-screen bg-black opacity-60">
+            </div>
+        </div>
+        <div class="popup">
+            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-1/3 h-5/6 bg-white rounded-xl">
+                <div class="top-10">
+                    <p class="text-black text-center text-4xl  mt-16 ">Error</p>
+                </div>
+                <div class="flex flex-col">
+                    <img class=" w-1/3 m-auto mt-20" src="./../assets/Pic/Error.png" alt="">
+                </div>
+                <div class=" flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2 ">
+                    <router-link :to="{ name: 'Main' }"
+                        ><button
+                        class=" text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
+                        @click="closeError" >Close</button>  </router-link>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style scoped></style>
