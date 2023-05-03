@@ -1,6 +1,9 @@
+
+const API_URL = `http://localhost:8080/api/pl1/announcements`
+const url = `${API_URL}`
 const getData = async () => {
   try {
-    const res = await fetch("http://localhost:8080/api/pl1/announcements");
+    const res = await fetch(url);
     if(res.status === 404) {
       const data = res.status;
       return data;
@@ -18,7 +21,7 @@ const getData = async () => {
 
 const getDataById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:8080/api/pl1/announcements/${id}`);
+    const res = await fetch(url+`/${id}`);
     if(res.status === 500) {
       const data = res.status;
       return data;
