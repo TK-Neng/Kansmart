@@ -46,7 +46,7 @@ const closeError = () => {
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <div class="ml-2 mt-2 text-3xl font-bold">
+    <div class="ml-20 mt-8 text-3xl font-bold">
       <h1>Announcement Detail:</h1>
     </div>
     <div class="border my-5 w-11/12 mx-auto flex flex-row">
@@ -68,13 +68,18 @@ const closeError = () => {
       </div>
     </div>
     <div class="ml-20">
-      <router-link :to="{ name: 'Main' }"
+      
         ><button
-        class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center"
+        class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16"
         >
           Back
-        </button></router-link
+        </button>
       >
+      <button
+        class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center ml-3 w-16"
+        >
+          Edit
+        </button>
     </div>
   </div>
 
@@ -94,7 +99,7 @@ const closeError = () => {
                 <div class=" flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2 ">
                     <router-link :to="{ name: 'Main' }"
                         ><button
-                        class=" text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
+                        class=" text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
                         @click="closeError" >Close</button>  </router-link>
                 </div>
             </div>
@@ -117,7 +122,7 @@ const closeError = () => {
                 <div class=" flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2 ">
                     <router-link :to="{ name: 'Main' }"
                         ><button
-                        class=" text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
+                        class=" text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
                         >Back</button>  </router-link>
                 </div>
             </div>

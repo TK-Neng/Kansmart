@@ -58,9 +58,20 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     <div class="text-center mt-2 text-3xl font-bold">
       <h1>SIT Announcement System (SAS)</h1>
     </div>
-    <div class="mt-4 flex flex-row ml-1">
+    <div class="mt-4 flex flex-row ml-8">
       <p class="font-bold">Date/Time shown in Timezone :</p>
       <p class="ml-1">{{ showTimeZone }}</p>
+      
+
+      <div class=" ml-auto mr-4">
+      <router-link :to="{ name: 'Add' }"
+        >
+      <button class="hover:bg-cyan-500 font-bold py-1 px-2 rounded bg-cyan-300 ml-auto mr-4 ">
+                  Add Announcement
+                </button>
+                </router-link>
+
+              </div>
     </div>
     <div v-show="colseShow">
         <div class="flex flex-col items-center justify-center">
@@ -71,23 +82,23 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       <table
         class="table-auto overflow-hidden flex items-center justify-center border-black text-lg "
       >
-        <thead class="border py-6">
+        <thead class=" py-6">
           <tr class="table-row border">
-            <th class="px-4">No.</th>
-            <th class="px-4">Title</th>
-            <th class="px-4">Category</th>
-            <th class="px-20">Publish Date</th>
+            <th class="px-28 py-4">No.</th>
+            <th class="px-4 text-left">Title</th>
+            <th class="px-16">Category</th>
+            <th class="px-16">Publish Date</th>
             <th class="px-4">Close Date</th>
-            <th class="px-4">Display</th>
+            <th class="px-12">Display</th>
             <th class="px-4">Action</th>
           </tr>
-          <tr v-for="(item, index) of data" :key="index">
-            <th>
+          <tr class="table-row border" v-for="(item, index) of data" :key="index">
+            <th class="py-5">
               {{ index+1 }}
             </th>
-            <th>
-              {{ item.announcementTitle }}
-            </th>
+             <th class="max-w-sm overflow-hidden text-left" style="word-wrap: break-word;">
+  {{ item.announcementTitle }}
+</th>
             <th>
               {{ item.announcementCategory }}
             </th>
@@ -102,10 +113,13 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             </th>
             <th>
               <router-link :to="`/detail?id=${item.id}`">
-                <button class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center">
-                  View
-                </button></router-link
-              >
+  <button class="w-20 hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center">
+    View
+  </button>
+</router-link>
+<button class="w-20 hover:bg-red-500 font-bold py-1 px-2 rounded bg-red-300 justify-center ml-4">
+  Delete
+</button>
             </th>
           </tr>
         </thead>
