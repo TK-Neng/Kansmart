@@ -14,7 +14,7 @@ import { ref, onMounted, onBeforeMount } from "vue";
 
 
       <div class="mt-8">
-       <h3>TItle</h3>
+       <h3>Title</h3>
         <div class=" border rounded-lg mr-4">
           <textarea class="h-8 w-full"></textarea>
         </div>
