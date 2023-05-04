@@ -1,7 +1,8 @@
 <script setup>
 import { getData } from "../composable/getData";
 import { ref, onMounted, onBeforeMount } from "vue";
-
+const API_URL = `http://localhost:8080/api/announcements`;
+const url = `${API_URL}`;
 const data = ref([]);
 
 const isShow = ref(false);
@@ -9,48 +10,90 @@ const isCheck404 = ref(false);
 const colseShow = ref(false);
 onBeforeMount(async () => {
   data.value = await getData();
-  if(data.value === 404){
+  if (data.value === 404) {
     isCheck404.value = true;
   }
-  for(let i = 0; i < data.value.length; i++){
-    if(data.value[i].announcementDisplay === "N"){
-    data.value[i].publishDate = "-"
-    data.value[i].closeDate = "-"
-    }
-    else if(data.value[i].publishDate === null){
-     data.value[i].publishDate = "-"
-    }
-    else if(data.value[i].closeDate === null){
-     data.value[i].closeDate = "-"
+  for (let i = 0; i < data.value.length; i++) {
+    if (data.value[i].announcementDisplay === "N") {
+      data.value[i].publishDate = "-";
+      data.value[i].closeDate = "-";
+    } else if (data.value[i].publishDate === null) {
+      data.value[i].publishDate = "-";
+    } else if (data.value[i].closeDate === null) {
+      data.value[i].closeDate = "-";
     }
 
-
-    if(data.value[i].publishDate !== "-" ){
-      let date = new Date( data.value[i].publishDate);
-      date = date.toLocaleString("en-UK", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+    if (data.value[i].publishDate !== "-") {
+      let date = new Date(data.value[i].publishDate);
+      date = date.toLocaleString("en-UK", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      });
       data.value[i].publishDate = date;
     }
-    if(data.value[i].closeDate !== "-"){
-      let date1 = new Date( data.value[i].closeDate);
-      date1 = date1.toLocaleString("en-UK", {day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "numeric"});
+    if (data.value[i].closeDate !== "-") {
+      let date1 = new Date(data.value[i].closeDate);
+      date1 = date1.toLocaleString("en-UK", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      });
       data.value[i].closeDate = date1;
     }
   }
 
   const checkEmpty = () => {
-  if (data.value.length == 0) {
-    isShow.value = false;
-    colseShow.value = true;
-  } else {
-    isShow.value = true;
-    colseShow.value = false;
-  }
+    if (data.value.length == 0) {
+      isShow.value = false;
+      colseShow.value = true;
+    } else {
+      isShow.value = true;
+      colseShow.value = false;
+    }
   };
   checkEmpty();
 });
-let showTimeZone = ref()
+let showTimeZone = ref();
 showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+const deleteData = async (deleteId) => {
+  try {
+    const res = await fetch(url + `/${deleteId}`, {
+      method: "DELETE",
+    });
+    console.log(deleteId);
+    if (res.ok) {
+      data.value = data.value.filter((datas) => {
+        return datas.id !== deleteId;
+      });
+    } else {
+      throw new Error("Error, cannot delete data!!");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+let isCheckDelete = ref(false);
+let deleteId = ref();
+const checkDelete = (check, deleteid) => {
+  if (check === true) {
+    isCheckDelete.value = true;
+    deleteId.value = deleteid;
+  }
+};
+const closeCheckDelete = (check) => {
+  if (check === false) {
+    isCheckDelete.value = false;
+  }
+};
+const deleteNow =(check)=>{
+  deleteData(deleteId.value);
+  isCheckDelete.value = check;
+}
 </script>
 
 <template>
@@ -61,28 +104,27 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     <div class="mt-4 flex flex-row ml-8">
       <p class="font-bold">Date/Time shown in Timezone :</p>
       <p class="ml-1">{{ showTimeZone }}</p>
-      
 
-      <div class=" ml-auto mr-4">
-      <router-link :to="{ name: 'Add' }"
-        >
-      <button class="hover:bg-cyan-500 font-bold py-1 px-2 rounded bg-cyan-300 ml-auto mr-4 ">
-                  Add Announcement
-                </button>
-                </router-link>
-
-              </div>
+      <div class="ml-auto mr-4">
+        <router-link :to="{ name: 'Add' }">
+          <button
+            class="hover:bg-cyan-500 font-bold py-1 px-2 rounded bg-cyan-300 ml-auto mr-4"
+          >
+            Add Announcement
+          </button>
+        </router-link>
+      </div>
     </div>
     <div v-show="colseShow">
-        <div class="flex flex-col items-center justify-center">
-          <div class="text-3xl font-bold mt-10">No Data</div>
-        </div>
+      <div class="flex flex-col items-center justify-center">
+        <div class="text-3xl font-bold mt-10">No Announcement</div>
+      </div>
     </div>
     <div class="mt-6" v-show="isShow">
       <table
-        class="table-auto overflow-hidden flex items-center justify-center border-black text-lg "
+        class="table-auto overflow-hidden flex items-center justify-center border-black text-lg"
       >
-        <thead class=" py-6">
+        <thead class="py-6">
           <tr class="table-row border">
             <th class="px-28 py-4">No.</th>
             <th class="px-4 text-left">Title</th>
@@ -92,13 +134,20 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             <th class="px-12">Display</th>
             <th class="px-4">Action</th>
           </tr>
-          <tr class="table-row border" v-for="(item, index) of data" :key="index">
+          <tr
+            class="table-row border"
+            v-for="(item, index) of data"
+            :key="index"
+          >
             <th class="py-5">
-              {{ index+1 }}
+              {{ index + 1 }}
             </th>
-             <th class="max-w-sm overflow-hidden text-left" style="word-wrap: break-word;">
-  {{ item.announcementTitle }}
-</th>
+            <th
+              class="max-w-sm overflow-hidden text-left"
+              style="word-wrap: break-word"
+            >
+              {{ item.announcementTitle }}
+            </th>
             <th>
               {{ item.announcementCategory }}
             </th>
@@ -113,13 +162,18 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             </th>
             <th>
               <router-link :to="`/detail?id=${item.id}`">
-  <button class="w-20 hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center">
-    View
-  </button>
-</router-link>
-<button class="w-20 hover:bg-red-500 font-bold py-1 px-2 rounded bg-red-300 justify-center ml-4">
-  Delete
-</button>
+                <button
+                  class="w-20 hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center"
+                >
+                  View
+                </button>
+              </router-link>
+              <button
+                class="w-20 hover:bg-red-500 font-bold py-1 px-2 rounded bg-red-300 justify-center ml-4"
+                @click="checkDelete(true, item.id)"
+              >
+                Delete
+              </button>
             </th>
           </tr>
         </thead>
@@ -127,28 +181,77 @@ showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     </div>
   </div>
 
-  <div v-show = "isCheck404">
-       <div class="popup">
-            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-screen h-screen bg-black opacity-60">
-            </div>
-        </div>
-        <div class="popup">
-            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  w-1/3 h-5/6 bg-white rounded-xl">
-                <div class="top-10">
-                    <p class="text-black text-center text-4xl  mt-16 ">Error</p>
-                </div>
-                <div class="flex flex-col">
-                    <img class=" w-1/3 m-auto mt-20" src="./../assets/Pic/Error.png" alt="">
-                </div>
-                <div class=" flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2 ">
-                    <router-link :to="{ name: 'Main' }"
-                        ><button
-                        class=" text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
-                        @click="closeError" >Close</button>  </router-link>
-                </div>
-            </div>
-        </div>
+  <div v-show="isCheck404">
+    <div class="popup">
+      <div
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"
+      ></div>
     </div>
+    <div class="popup">
+      <div
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl"
+      >
+        <div class="top-10">
+          <p class="text-black text-center text-4xl mt-16">Error</p>
+        </div>
+        <div class="flex flex-col">
+          <img
+            class="w-1/3 m-auto mt-20"
+            src="./../assets/Pic/Error.png"
+            alt=""
+          />
+        </div>
+        <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
+          <router-link :to="{ name: 'Main' }"
+            ><button
+              class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
+              @click="closeError"
+            >
+              Close
+            </button>
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div v-show="isCheckDelete">
+    <div class="popup">
+      <div
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"
+      ></div>
+    </div>
+    <div class="popup">
+      <div
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl"
+      >
+        <div class="top-10">
+          <p class="text-black text-center text-2xl mt-16">Are you sure you want to delete this data?</p>
+        </div>
+        <div class="flex flex-col">
+          <img
+            class="w-1/3 m-auto mt-20"
+            src="./../assets/Pic/Error.png"
+            alt=""
+          />
+        </div>
+        <div class="flex flex-row fixed bottom-10 left-1/2 -translate-x-1/2">
+          <button
+            class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
+            @click="deleteNow(false)"
+          >
+            Yes
+          </button>
+          <button
+            class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
+            @click="closeCheckDelete(false)"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

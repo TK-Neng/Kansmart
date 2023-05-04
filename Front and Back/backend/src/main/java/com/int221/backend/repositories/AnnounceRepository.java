@@ -10,5 +10,4 @@ import java.util.Set;
 
 public interface AnnounceRepository extends JpaRepository<Announce, Integer> {
 
-
 }

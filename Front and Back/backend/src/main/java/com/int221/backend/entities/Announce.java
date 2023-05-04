@@ -1,17 +1,19 @@
 package com.int221.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "announces")
 public class Announce {
 
@@ -39,5 +41,6 @@ public class Announce {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "categories_categoryId", nullable = false)
     private Category announcementCategory;
+
 
 }

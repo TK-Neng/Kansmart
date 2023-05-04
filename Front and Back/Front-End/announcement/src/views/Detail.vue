@@ -68,13 +68,11 @@ const closeError = () => {
       </div>
     </div>
     <div class="ml-20">
-      
-        ><button
-        class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16"
-        >
+      <router-link :to="{ name: 'Main' }">
+        <button
+        class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16">
           Back
-        </button>
-      >
+        </button></router-link>
       <button
         class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center ml-3 w-16"
         >
