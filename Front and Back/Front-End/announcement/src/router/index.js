@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Main from "../views/Main.vue";
 import Detail from "../views/Detail.vue";
+import Add from "../views/Add.vue";
 
 const history = createWebHistory();
 
@@ -14,6 +15,11 @@ const routes = [
     path: "/detail",
     name: "Detail",
     component: Detail,
+  },
+  {
+    path: "/add",
+    name: "Add",
+    component: Add,
   },
 ];
 
