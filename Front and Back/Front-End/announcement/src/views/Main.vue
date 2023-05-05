@@ -1,6 +1,10 @@
 <script setup>
 import { getData } from "../composable/getData";
 import { ref, onMounted, onBeforeMount } from "vue";
+import { useRoute, useRouter } from 'vue-router'
+const { params } = useRoute()
+const router = useRouter()
+import Add from "./Add.vue";
 const API_URL = `http://localhost:8080/api/announcements`;
 const url = `${API_URL}`;
 const data = ref([]);
@@ -94,6 +98,32 @@ const deleteNow =(check)=>{
   deleteData(deleteId.value);
   isCheckDelete.value = check;
 }
+
+
+// const addNewAnnounce = async (newAnnounce) => {
+//   // console.log(newQuestion)
+//   try {
+//     const res = await fetch(url, {
+//       method: 'POST',
+//       headers: {
+//         'content-type': 'application/json'
+//       },
+//       // body: JSON.stringify({
+//       //   text: newQuestion.text,
+//       //   options: newQuestion.options
+//       // })
+//       body: JSON.stringify(newQuestion)
+//     })
+//     if (res.status === 201) {
+//       const addedAnnounce = await res.json()
+//       data.value.push(addedAnnounce)
+//       router.push({ name: 'Main' })
+//     } else throw new Error('There is something wrong, cannot add!')
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 </script>
 
 <template>
@@ -106,14 +136,16 @@ const deleteNow =(check)=>{
       <p class="ml-1">{{ showTimeZone }}</p>
 
       <div class="ml-auto mr-4">
-        <router-link :to="{ name: 'Add' }">
-          <button
-            class="hover:bg-cyan-500 font-bold py-1 px-2 rounded bg-cyan-300 ml-auto mr-4"
-          >
-            Add Announcement
-          </button>
-        </router-link>
+          <router-link to="/add">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Add Announcement
+            </button>
+          </router-link>
       </div>
+      <!-- <Add v-show="false" @add="addNewAnnounce"/> -->
+      
     </div>
     <div v-show="colseShow">
       <div class="flex flex-col items-center justify-center">
