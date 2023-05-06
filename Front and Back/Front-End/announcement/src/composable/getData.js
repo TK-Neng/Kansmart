@@ -1,5 +1,5 @@
 
-const API_URL = import.meta.env.VITE_ROOT_API+`/api/announcements`
+const API_URL = `http://ip22pl1.sit.kmutt.ac.th:8080/api/announcements`
 const url = `${API_URL}`
 const getData = async () => {
   try {
