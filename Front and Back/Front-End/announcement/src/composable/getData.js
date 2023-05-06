@@ -41,4 +41,4 @@ const getDataById = async (id) => {
   }
 };
 
-export { getData, getDataById };
+export { getData, getDataById, url };

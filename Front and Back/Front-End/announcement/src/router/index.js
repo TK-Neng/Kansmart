@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import Main from "../views/Main.vue";
 import Detail from "../views/Detail.vue";
 import Add from "../views/Add.vue";
+import Edit from "../views/Edit.vue";
 
-const history = createWebHistory();
+const history = createWebHistory(import.meta.env.BASE_URL);
 
 const routes = [
   {
@@ -12,7 +13,7 @@ const routes = [
     component: Main,
   },
   {
-    path: "/detail",
+    path: "/detail/:id",
     name: "Detail",
     component: Detail,
   },
@@ -21,6 +22,11 @@ const routes = [
     name: "Add",
     component: Add,
   },
+  {
+    path: "/edit/:id",
+    name: "Edit",
+    component: Edit,
+  }
 ];
 
 const router = createRouter({ history, routes });

@@ -1,19 +1,16 @@
 <script setup>
-import { getData } from "../composable/getData";
-import { ref, onMounted, onBeforeMount } from "vue";
+import { getData, url } from "../composable/getData";
+import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from 'vue-router'
-const { params } = useRoute()
 const router = useRouter()
-import Add from "./Add.vue";
-const API_URL = `http://localhost:8080/api/announcements`;
-const url = `${API_URL}`;
 const data = ref([]);
-
+const sortData = ref([]);
 const isShow = ref(false);
 const isCheck404 = ref(false);
 const colseShow = ref(false);
 onBeforeMount(async () => {
   data.value = await getData();
+  sortData.value = data.value
   if (data.value === 404) {
     isCheck404.value = true;
   }
@@ -21,9 +18,12 @@ onBeforeMount(async () => {
     if (data.value[i].announcementDisplay === "N") {
       data.value[i].publishDate = "-";
       data.value[i].closeDate = "-";
-    } else if (data.value[i].publishDate === null) {
+      let temp = data.value[i];
+      data.value.splice(i, 1);
+      data.value.push(temp);
+    } if (data.value[i].publishDate === null) {
       data.value[i].publishDate = "-";
-    } else if (data.value[i].closeDate === null) {
+    } if (data.value[i].closeDate === null) {
       data.value[i].closeDate = "-";
     }
 
@@ -49,6 +49,9 @@ onBeforeMount(async () => {
       });
       data.value[i].closeDate = date1;
     }
+
+
+
   }
 
   const checkEmpty = () => {
@@ -69,7 +72,6 @@ const deleteData = async (deleteId) => {
     const res = await fetch(url + `/${deleteId}`, {
       method: "DELETE",
     });
-    console.log(deleteId);
     if (res.ok) {
       data.value = data.value.filter((datas) => {
         return datas.id !== deleteId;
@@ -99,31 +101,9 @@ const deleteNow =(check)=>{
   isCheckDelete.value = check;
 }
 
-
-// const addNewAnnounce = async (newAnnounce) => {
-//   // console.log(newQuestion)
-//   try {
-//     const res = await fetch(url, {
-//       method: 'POST',
-//       headers: {
-//         'content-type': 'application/json'
-//       },
-//       // body: JSON.stringify({
-//       //   text: newQuestion.text,
-//       //   options: newQuestion.options
-//       // })
-//       body: JSON.stringify(newQuestion)
-//     })
-//     if (res.status === 201) {
-//       const addedAnnounce = await res.json()
-//       data.value.push(addedAnnounce)
-//       router.push({ name: 'Main' })
-//     } else throw new Error('There is something wrong, cannot add!')
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
+const gotoDetail =(id)=>{
+  router.push({ name: 'Detail', params: { id: id } })
+}
 </script>
 
 <template>
@@ -144,7 +124,6 @@ const deleteNow =(check)=>{
             </button>
           </router-link>
       </div>
-      <!-- <Add v-show="false" @add="addNewAnnounce"/> -->
       
     </div>
     <div v-show="colseShow">
@@ -193,13 +172,12 @@ const deleteNow =(check)=>{
               {{ item.announcementDisplay }}
             </th>
             <th>
-              <router-link :to="`/detail?id=${item.id}`">
                 <button
                   class="w-20 hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center"
-                >
+                 @click="gotoDetail(item.id)">
                   View
                 </button>
-              </router-link>
+
               <button
                 class="w-20 hover:bg-red-500 font-bold py-1 px-2 rounded bg-red-300 justify-center ml-4"
                 @click="checkDelete(true, item.id)"

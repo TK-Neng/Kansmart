@@ -1,12 +1,8 @@
 <script setup>
 import { ref, onMounted} from "vue";
-import { getData } from "../composable/getData";
-const API_URL = `http://localhost:8080/api/announcements`;
-const url = `${API_URL}`;
+import { getData,url } from "../composable/getData";
 import { useRoute, useRouter } from 'vue-router'
-const { params } = useRoute()
 const router = useRouter()
-defineEmits(['edit', 'add'])
 const data = ref([]);
 const props = defineProps({
   announcement: {type: Object}
@@ -32,7 +28,10 @@ onMounted(async ()=>{
         "announcementDisplay": "",
         "announcementCategory": ""
     }
+  }else{
+    updatedAnnouncement.value = props.announcement
   }
+
 })
 
 
@@ -50,36 +49,40 @@ const checkDisplay =()=>{
   }
   changeDate()
 }
-const PublishDate = ref(new Date());
-const CloseDate = ref(new Date());
-const PublishTime = ref(new Date());
-const CloseTime = ref(new Date());
+const PublishDate = ref();
+const CloseDate = ref();
+const PublishTime = ref();
+const CloseTime = ref();
 let datePublish = ref();
 let dateClose = ref();
 const changeDate = () => {
-  const date = new Date(`${PublishDate.value}T${PublishTime.value}:00`).toISOString();
-  datePublish.value = date;
-  updatedAnnouncement.value.publishDate = datePublish.value;
-  const date1 = new Date(`${CloseDate.value}T${CloseTime.value}:00`).toISOString();
-  dateClose.value = date1;
-  updatedAnnouncement.value.closeDate = dateClose.value;
+  if(PublishDate.value === undefined){
+    updatedAnnouncement.value.publishDate = null;
+  }
+  if(CloseDate.value === undefined){
+    updatedAnnouncement.value.closeDate = null;
+  }
+  if(PublishDate.value !== undefined){
+    const date = new Date(`${PublishDate.value}T${PublishTime.value}:00`).toISOString();
+    datePublish.value = date;
+    updatedAnnouncement.value.publishDate = datePublish.value;
+  }
+  if(CloseDate.value !== undefined){
+    const date1 = new Date(`${CloseDate.value}T${CloseTime.value}:00`).toISOString();
+    dateClose.value = date1;
+    updatedAnnouncement.value.closeDate = dateClose.value;
+  }
 };
 
 
 const addNewAnnounce = async (newAnnounce) => {
-  // console.log(newQuestion)
   checkDisplay()
-  console.log(updatedAnnouncement.value)
   try {
     const res = await fetch(url, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      // body: JSON.stringify({
-      //   text: newQuestion.text,
-      //   options: newQuestion.options
-      // })
       body: JSON.stringify(newAnnounce)
     })
     if (res.status === 201) {
@@ -91,6 +94,7 @@ const addNewAnnounce = async (newAnnounce) => {
     console.log(error)
   }
 }
+
 </script>
 
 <template>
@@ -98,7 +102,6 @@ const addNewAnnounce = async (newAnnounce) => {
     <div class="ml-20 mt-8">
       <h1 class="text-3xl font-bold">Announcement Detail:</h1>
 
-      <!-- <button @click="changeDate">Test</button> -->
 
       <div class="mt-8">
        <h3>Title</h3>
