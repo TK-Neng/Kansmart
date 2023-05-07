@@ -1,5 +1,5 @@
 
-const API_ROOT = import.meta.env.VITE_API_ROOT+'/api/announcements';
+const API_ROOT = import.meta.env.VITE_API_ROOT
 const url = `${API_ROOT}`
 const getData = async () => {
   try {
