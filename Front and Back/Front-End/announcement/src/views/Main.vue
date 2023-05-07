@@ -4,13 +4,11 @@ import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const data = ref([]);
-const sortData = ref([]);
 const isShow = ref(false);
 const isCheck404 = ref(false);
 const colseShow = ref(false);
 onBeforeMount(async () => {
   data.value = await getData();
-  sortData.value = data.value
   if (data.value === 404) {
     isCheck404.value = true;
   }
@@ -18,15 +16,13 @@ onBeforeMount(async () => {
     if (data.value[i].announcementDisplay === "N") {
       data.value[i].publishDate = "-";
       data.value[i].closeDate = "-";
-      let temp = data.value[i];
-      data.value.splice(i, 1);
-      data.value.push(temp);
-    } if (data.value[i].publishDate === null) {
+  }
+
+    if (data.value[i].publishDate === null) {
       data.value[i].publishDate = "-";
     } if (data.value[i].closeDate === null) {
       data.value[i].closeDate = "-";
     }
-
     if (data.value[i].publishDate !== "-") {
       let date = new Date(data.value[i].publishDate);
       date = date.toLocaleString("en-UK", {
@@ -49,8 +45,6 @@ onBeforeMount(async () => {
       });
       data.value[i].closeDate = date1;
     }
-
-
 
   }
 
@@ -116,7 +110,7 @@ const gotoDetail =(id)=>{
       <p class="ml-1">{{ showTimeZone }}</p>
 
       <div class="ml-auto mr-4">
-          <router-link to="/add">
+          <router-link :to="{name:'Add'}">
             <button
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >

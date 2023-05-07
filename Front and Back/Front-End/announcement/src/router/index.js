@@ -4,26 +4,30 @@ import Detail from "../views/Detail.vue";
 import Add from "../views/Add.vue";
 import Edit from "../views/Edit.vue";
 
+<<<<<<< Updated upstream
 const history = createWebHistory();
+=======
+const history = createWebHistory(import.meta.env.BASE_URL)
+>>>>>>> Stashed changes
 
 const routes = [
   {
-    path: "/",
+    path: "/admin/announcement",
     name: "Main",
     component: Main,
   },
   {
-    path: "/detail/:id",
+    path: "/admin/announcement/:id",
     name: "Detail",
     component: Detail,
   },
   {
-    path: "/add",
+    path: "/admin/announcement/add",
     name: "Add",
     component: Add,
   },
   {
-    path: "/edit/:id",
+    path: "/admin/announcement/:id",
     name: "Edit",
     component: Edit,
   }

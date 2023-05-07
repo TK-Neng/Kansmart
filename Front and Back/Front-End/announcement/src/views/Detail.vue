@@ -1,14 +1,12 @@
 <script setup>
 import { getDataById } from "../composable/getData";
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import Add from "./Add.vue";
 const { params } = useRoute();
 const router = useRouter();
 const data = ref([]);
 const isCheck = ref(false);
 const isCheck404 = ref(false);
-defineEmits(['editAnnounce'])
 onBeforeMount(async () => {
   data.value = await getDataById(parseInt(params.id));
   if (data.value === 500) {
@@ -53,11 +51,6 @@ const closeError = () => {
   isCheck404.value = false;
 };
 
-// const editAnnouncement = ref(undefined)
-// const setAnnounceMode = (announce) => {
-//   // currentComponent.value = 'AddEditQuestion'
-//   editAnnouncement.value = announce
-// }
 
 const gotoEdit = (id) =>{
   router.push({name: 'Edit', params: {id: id}})
