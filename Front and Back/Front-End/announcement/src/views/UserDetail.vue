@@ -54,49 +54,46 @@ const closeError = () => {
 };
 
 
-const gotoEdit = (id) =>{
-  router.push({name: 'Edit', params: {id: id}})
-}
+
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <div class="ml-20 mt-8 text-3xl font-bold">
-      <h1>Announcement Detail:</h1>
-    </div>
-    <div class="border my-5 w-11/12 mx-auto flex flex-row">
+    
+    <div class="border my-4  w-12/12   ">
+        
       <div class="font-bold">
-        <h3 class="mt-5 ml-4">Title</h3>
-        <h3 class="mt-5 ml-4">Category</h3>
-        <h3 class="mt-5 ml-4">Description</h3>
-        <h3 class="mt-5 ml-4">Publish Date</h3>
-        <h3 class="mt-5 ml-4">Close Date</h3>
-        <h3 class="mt-5 ml-4 mb-5">Display</h3>
-      </div>
-      <div class="ml-20 ann-item ">
-        <p class="mt-5 ml-4">{{ data.announcementTitle }}</p>
-        <p class="mt-5 ml-4">{{ data.announcementCategory }}</p>
-        <p class="mt-5 ml-4">{{ data.announcementDescription }}</p>
-        <p class="mt-5 ml-4">{{ data.publishDate }}</p>
-        <p class="mt-5 ml-4">{{ data.closeDate }}</p>
-        <p class="mt-5 ml-4 mb-5">{{ data.announcementDisplay }}</p>
-      </div>
+        <div class="ml-20 mt-6 text-3xl font-bold">
+      <h1>{{ data.announcementTitle }}</h1>
     </div>
-    <div class="ml-20">
-      <router-link :to="{ name: 'Main' }">
+        
+      </div>
+      <div class="ml-20  ">
+       
+        <p class="mt-5  ">{{ data.announcementCategory }}</p>
+
+
+        <p class="mt-10 ">{{ data.announcementDescription }}</p>
+        <!-- <p class="mt-5 ml-4">{{ data.publishDate }}</p>
+        <p class="mt-5 ml-4">{{ data.closeDate }}</p>
+        <p class="mt-5 ml-4 mb-5">{{ data.announcementDisplay }}</p> -->
+
+        <div class="mt-10 mb-10">
+      <router-link :to="{ name: 'UserMain' }">
         <button
           class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16"
         >
           Back
         </button></router-link
       >
+
+      
       <!-- <Add :announcement="editAnnouncement" v-show="false"/> -->
-        <button
-          class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center ml-3 w-16"
-          @click="gotoEdit(data.id)">
-          Edit
-        </button>
+      
     </div>
+      </div>
+    </div>
+    
   </div>
 
   <div v-show="isCheck404">
@@ -120,7 +117,7 @@ const gotoEdit = (id) =>{
           />
         </div>
         <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
-          <router-link :to="{ name: 'Main' }"
+          <router-link :to="{ name: 'UserMain' }"
             ><button
               class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
               @click="closeError"
@@ -154,7 +151,7 @@ const gotoEdit = (id) =>{
           />
         </div>
         <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
-          <router-link :to="{ name: 'Main' }"
+          <router-link :to="{ name: 'UserMain' }"
             ><button
               class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
            >

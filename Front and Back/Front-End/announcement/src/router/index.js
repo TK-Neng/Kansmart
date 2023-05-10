@@ -3,6 +3,8 @@ import Main from "../views/Main.vue";
 import Detail from "../views/Detail.vue";
 import Add from "../views/Add.vue";
 import Edit from "../views/Edit.vue";
+import UserMain from "../views/UserMain.vue";
+import UserDetail from "../views/UserDetail.vue";
 
 
 const history = createWebHistory(import.meta.env.BASE_URL)
@@ -27,7 +29,17 @@ const routes = [
     path: "/admin/announcement/:id",
     name: "Edit",
     component: Edit,
-  }
+  },
+  {
+    path: "/announcement",
+    name: "UserMain",
+    component: UserMain,
+  },
+  {
+    path: "/announcement/:id",
+    name: "UserDetail",
+    component: UserDetail,
+  },
 ];
 
 const router = createRouter({ history, routes });

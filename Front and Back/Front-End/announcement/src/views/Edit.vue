@@ -48,7 +48,7 @@ const Display = {
 };
 const myCheckbox = ref();
 const checkDisplay = () => {
-  if (myCheckbox.value === true) {
+  if (myCheckbox.value === true  ) {
     updatedAnnouncement.value.announcementDisplay = Display.Y;
   } else {
     updatedAnnouncement.value.announcementDisplay = Display.N;
@@ -166,7 +166,7 @@ const modifyAnmounce = async (updatedAnmounce) => {
       </div>
 
       <div class=" flex flex-row">
-        <div class="mt-8">
+        <div class="mt-8 ">
           <h3>Publish Date</h3>
           <div class="border rounded-lg inline-block mr-4">
             <input type="date" class="h-8 w-full" v-model="PublishDate" />
