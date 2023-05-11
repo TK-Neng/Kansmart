@@ -16,7 +16,7 @@ import java.util.Set;
 public class Category {
     @Id
     @Column(name = "categoryId", nullable = false)
-    private Integer id;
+    private Integer categoryId;
 
     @Column(name = "categoryName", nullable = false, length = 50)
     private String categoryName;

@@ -1,11 +1,13 @@
 package com.int221.backend.controller;
 
 import com.int221.backend.dto.AnnounceDto;
+import com.int221.backend.dto.OutputAnnouceDto;
 import com.int221.backend.entities.Announce;
 import com.int221.backend.entities.Category;
 import com.int221.backend.mapper.ListMapper;
 import com.int221.backend.repositories.CategoryRepository;
 import com.int221.backend.services.AnnounceService;
+import com.int221.backend.services.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -25,29 +27,28 @@ public class AnnounceController {
     @Autowired
     private ListMapper listMapper;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @GetMapping("")
-    public List<AnnounceDto> getAnnounceDto(){
+    public List<OutputAnnouceDto> getAnnounceDto(){
         List<Announce> announceList = service.getAllAnnounce();
-        return listMapper.mapList(announceList, AnnounceDto.class, modelMapper);
+        return listMapper.mapList(announceList, OutputAnnouceDto.class, modelMapper);
     }
 
 
     @GetMapping("/{id}")
-    public AnnounceDto getAnnounce(@PathVariable Integer id) {
-        return modelMapper.map(service.getAnnounce(id), AnnounceDto.class);
+    public OutputAnnouceDto getAnnounce(@PathVariable Integer id) {
+        return modelMapper.map(service.getAnnounce(id), OutputAnnouceDto.class);
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AnnounceDto addAnnounceDtoBody(@RequestBody AnnounceDto newAnnounceDto){
+    @ResponseStatus(HttpStatus.OK)
+    public OutputAnnouceDto addAnnounceDtoBody(@RequestBody AnnounceDto newAnnounceDto){
         Announce announce = modelMapper.map(newAnnounceDto, Announce.class);
-        String category = newAnnounceDto.getAnnouncementCategory();
-        Category categoryEntity = categoryRepository.findCategoryByCategoryName(category);
-        announce.setAnnouncementCategory(categoryEntity);
-        Announce announceAdd = service.addAnnounce(announce);
-        return modelMapper.map(announceAdd, AnnounceDto.class);
+        announce.setId(null);
+        announce.setAnnouncementCategory(categoryService.getCategoryById(newAnnounceDto.getCategoryId()));
+        service.addAnnounce(announce);
+        return modelMapper.map(announce, OutputAnnouceDto.class);
     }
 
     @DeleteMapping("/{id}")
@@ -56,12 +57,11 @@ public class AnnounceController {
     }
 
     @PutMapping("/{id}")
-    public AnnounceDto updateAnnounce(@PathVariable Integer id, @RequestBody AnnounceDto newAnnounceDto){
+    public OutputAnnouceDto updateAnnounce(@PathVariable Integer id, @RequestBody AnnounceDto newAnnounceDto){
         Announce announce = modelMapper.map(newAnnounceDto, Announce.class);
-        String category = newAnnounceDto.getAnnouncementCategory();
-        Category categoryEntity = categoryRepository.findCategoryByCategoryName(category);
-        announce.setAnnouncementCategory(categoryEntity);
-        return modelMapper.map(service.updateAnnounce(id, announce), AnnounceDto.class);
+        announce.setAnnouncementCategory(categoryService.getCategoryById(newAnnounceDto.getCategoryId()));
+        service.updateAnnounce(id, announce);
+        return modelMapper.map(announce, OutputAnnouceDto.class);
     }
 
 

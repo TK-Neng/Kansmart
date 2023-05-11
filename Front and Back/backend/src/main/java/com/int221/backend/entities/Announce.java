@@ -19,6 +19,7 @@ public class Announce {
 
     @Id
     @Column(name = "announcementId", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "announcementTitle", nullable = false, length = 200)
