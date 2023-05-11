@@ -9,6 +9,21 @@ const data = ref([]);
 const updatedAnnouncement = ref({});
 const PublishinDate = ref();
 const CloseinDate = ref();
+
+
+const publishDate = new Date('5 May 2023, 14:15')
+// const publishDate = new Date('{{ PublishinDate }}')
+
+const publishDateOnly = publishDate.toISOString().substring(0, 10)
+
+
+
+
+
+
+
+
+
 onBeforeMount(async () => {
   data.value = await getDataById(parseInt(params.id));
   updatedAnnouncement.value = data.value;
@@ -55,7 +70,18 @@ const checkDisplay = () => {
   }
   changeDate();
 };
-const PublishDate = ref();
+
+
+
+
+
+const PublishDate = ref(publishDateOnly);
+
+
+
+
+
+
 const CloseDate = ref();
 const PublishTime = ref();
 const CloseTime = ref();
