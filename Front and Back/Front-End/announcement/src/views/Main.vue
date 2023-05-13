@@ -138,7 +138,7 @@ const gotoDetail =(id)=>{
             <th class="px-16">Publish Date</th>
             <th class="px-4">Close Date</th>
             <th class="px-12">Display</th>
-            <th class="px-4">Action</th>
+            <th class="px-20">Action</th>
           </tr>
           <tr
             class="table-row border"
@@ -241,19 +241,10 @@ const gotoDetail =(id)=>{
           />
         </div>
         <div class="flex flex-row fixed bottom-10 left-1/2 -translate-x-1/2">
-          <button
-            class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
-            @click="deleteNow(false)"
-          >
-            Yes
-          </button>
-          <button
-            class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
-            @click="closeCheckDelete(false)"
-          >
-            Close
-          </button>
-        </div>
+    <button class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex items-center justify-center" style="width: 100px;" @click="deleteNow(false)">Yes</button>
+
+    <button class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex items-center justify-center" style="width: 100px;" @click="closeCheckDelete(false)">Close</button>
+</div>
       </div>
     </div>
   </div>

@@ -10,6 +10,8 @@ const router = useRouter();
 const data = ref([]);
 const isCheck = ref(false);
 const isCheck404 = ref(false);
+const isClosedDateVisible = ref(true); // add this line
+// ...
 onBeforeMount(async () => {
   data.value = await getDataById(parseInt(params.id));
   if (data.value === 500) {
@@ -72,14 +74,18 @@ const closeError = () => {
         
       </div>
       <div class="ml-20  ">
-       
-        <p class="mt-5  ">{{ data.announcementCategory }}</p>
+        
+        <p class="mt-5" style="display: inline-block;">{{ data.announcementCategory }}</p>
+
+
+<p class="mt-5 ml-4 pr-8" style="display: inline-block; float: right;" v-show="isClosedDateVisible">
+  <span style="color: red;">Closed on : </span>{{ data.closeDate }}</p>
+  
+<!-- <p class="mt-5 ml-4 pr-8" style="display: inline-block; float: right;" v-show="isShow"><span style="color: red;">Closed on : </span>{{ data.closeDate }}</p> -->
 
 
         <p class="mt-10 ">{{ data.announcementDescription }}</p>
-        <!-- <p class="mt-5 ml-4">{{ data.publishDate }}</p>
-        <p class="mt-5 ml-4">{{ data.closeDate }}</p>
-        <p class="mt-5 ml-4 mb-5">{{ data.announcementDisplay }}</p> -->
+        
 
         <div class="mt-10 mb-10">
       <router-link :to="{ name: 'UserMain' }">
@@ -89,6 +95,19 @@ const closeError = () => {
           Back
         </button></router-link
       >
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
       <!-- <Add :announcement="editAnnouncement" v-show="false"/> -->
