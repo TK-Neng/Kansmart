@@ -1,37 +1,36 @@
 <script setup>
-import { ref, onMounted} from "vue";
-import { getData,url } from "../composable/getData";
+import { ref, onMounted, computed} from "vue";
+import { url } from "../composable/getData";
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const data = ref([]);
 const props = defineProps({
   announcement: {type: Object}
 })
-
-const updatedAnnouncement = ref({});
-onMounted(async ()=>{
-  data.value = await getData();
-  const allId = [];
-  for(let i = 0; i < data.value.length; i++){
-    allId[i] = data.value[i].id
+const updatedAnnouncement = ref([]);
+const inputCategory = ref("")
+const intCategory = () =>{
+  if(inputCategory.value === "ทั่วไป"){
+    updatedAnnouncement.value.categoryId = 1;
+  } else if(inputCategory.value  === "ทุนการศึกษา"){
+    updatedAnnouncement.value.categoryId = 2;
+  }else if(inputCategory.value  === "หางาน"){
+    updatedAnnouncement.value.categoryId = 3;
+  }else if(inputCategory.value  === "ฝึกงาน"){
+    updatedAnnouncement.value.categoryId = 4;
   }
-  let id = allId.reduce(function (prev, curr) {
-  return curr > prev ? curr : prev;
-  });
+}
+onMounted(async ()=>{
   if(props.announcement === undefined){
     updatedAnnouncement.value = {
-        "id": id+1,
         "announcementTitle": "",
         "announcementDescription": "",
         "publishDate": "",
         "closeDate": "",
-        "announcementDisplay": "",
-        "announcementCategory": ""
+        "announcementDisplay": "", 
+        "categoryId": 0
     }
-  }else{
-    updatedAnnouncement.value = props.announcement
   }
-
 })
 
 
@@ -48,6 +47,7 @@ const checkDisplay =()=>{
     updatedAnnouncement.value.announcementDisplay = Display.N;
   }
   changeDate()
+  intCategory()
 }
 const PublishDate = ref();
 const CloseDate = ref();
@@ -78,23 +78,23 @@ const changeDate = () => {
 const addNewAnnounce = async (newAnnounce) => {
   checkDisplay()
   try {
-    const res = await fetch(url, {
+    const res = await fetch(url,{
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(newAnnounce)
     })
-    if (res.status === 201) {
+    if (res.status === 200) {
       const addedAnnounce = await res.json()
       data.value.push(addedAnnounce)
       router.push({ name: 'Main' })
-    } else throw new Error('There is something wrong, cannot add!')
+    } else throw new Error('กรุณากรอกข้อมูลให้ครบถ้วน')
   } catch (error) {
     console.log(error)
+    alert(error.message)
   }
 }
-
 </script>
 
 <template>
@@ -113,7 +113,7 @@ const addNewAnnounce = async (newAnnounce) => {
       <div class="mt-2">
     <h3>Category</h3>
     <div class="border rounded-lg mr-4 inline-block">
-      <select v-model="updatedAnnouncement.announcementCategory" class="h-8 w-full pl-12 pr-8">
+      <select v-model="inputCategory" class="h-8 w-full pl-12 pr-8">
         <option v-for="(category, index) in categories" :key="index">{{ category }}</option> 
       </select>
     </div>

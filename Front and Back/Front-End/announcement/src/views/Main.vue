@@ -13,10 +13,10 @@ onBeforeMount(async () => {
     isCheck404.value = true;
   }
   for (let i = 0; i < data.value.length; i++) {
-    if (data.value[i].announcementDisplay === "N") {
-      data.value[i].publishDate = "-";
-      data.value[i].closeDate = "-";
-  }
+  //   if (data.value[i].announcementDisplay === "N") {
+  //     data.value[i].publishDate = "-";
+  //     data.value[i].closeDate = "-";
+  // }
 
     if (data.value[i].publishDate === null) {
       data.value[i].publishDate = "-";
@@ -75,6 +75,7 @@ const deleteData = async (deleteId) => {
     }
   } catch (err) {
     console.log(err);
+    alert(err.message);
   }
 };
 let isCheckDelete = ref(false);
@@ -121,23 +122,23 @@ const gotoDetail =(id)=>{
       
     </div>
     <div v-show="colseShow">
-      <div class="flex flex-col items-center justify-center">
+      <div class="flex flex-col items-center justify-center ">
         <div class="text-3xl font-bold mt-10">No Announcement</div>
       </div>
     </div>
     <div class="mt-6" v-show="isShow">
       <table
-        class="table-auto overflow-hidden flex items-center justify-center border-black text-lg"
+        class="table-auto overflow-hidden flex items-center justify-center border-black text-lg "
       >
-        <thead class="py-6">
-          <tr class="table-row border">
+        <thead class="py-6 ">
+          <tr class="table-row border ">
             <th class="px-28 py-4">No.</th>
-            <th class="px-4 text-left">Title</th>
+            <th class="px-4 text-left  ">Title</th>
             <th class="px-16">Category</th>
             <th class="px-16">Publish Date</th>
             <th class="px-4">Close Date</th>
             <th class="px-12">Display</th>
-            <th class="px-4">Action</th>
+            <th class="px-20">Action</th>
           </tr>
           <tr
             class="table-row border"
@@ -148,7 +149,7 @@ const gotoDetail =(id)=>{
               {{ index + 1 }}
             </th>
             <th
-              class="max-w-sm overflow-hidden text-left"
+              class="max-w-sm overflow-hidden text-left "
               style="word-wrap: break-word"
             >
               {{ item.announcementTitle }}
@@ -240,19 +241,10 @@ const gotoDetail =(id)=>{
           />
         </div>
         <div class="flex flex-row fixed bottom-10 left-1/2 -translate-x-1/2">
-          <button
-            class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
-            @click="deleteNow(false)"
-          >
-            Yes
-          </button>
-          <button
-            class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex-col"
-            @click="closeCheckDelete(false)"
-          >
-            Close
-          </button>
-        </div>
+    <button class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex items-center justify-center" style="width: 100px;" @click="deleteNow(false)">Yes</button>
+
+    <button class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-red-400 transition duration-500 ease-in-out flex items-center justify-center" style="width: 100px;" @click="closeCheckDelete(false)">Close</button>
+</div>
       </div>
     </div>
   </div>

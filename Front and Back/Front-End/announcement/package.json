@@ -5,9 +5,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=/pl1/",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
+    "cypress": "^12.10.0",
+    "pinia": "^2.0.36",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
