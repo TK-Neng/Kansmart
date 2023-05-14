@@ -27,6 +27,35 @@ const checkmode =()=>{
     announcer.mode = "close"
   }
 }
+
+
+
+//  ของใหม่ 
+const pageSize = 5;
+const currentPage = ref(1);
+const totalPages = computed(() => Math.ceil(data.value.length / pageSize));
+const visiblePageNumbers = computed(() => {
+  const pageNumbers = [];
+  const maxVisiblePageNumbers = 10;
+  let startPageNumber = currentPage.value - Math.floor(maxVisiblePageNumbers / 2);
+  startPageNumber = Math.max(1, startPageNumber);
+  let endPageNumber = startPageNumber + maxVisiblePageNumbers - 1;
+  endPageNumber = Math.min(totalPages.value, endPageNumber);
+  for (let i = startPageNumber; i <= endPageNumber; i++) {
+    pageNumbers.push(i);
+  }
+  return pageNumbers;
+});
+
+
+
+
+
+
+
+
+
+
 onBeforeMount(async () => {
   data.value = await getData();
   let Dayclose
@@ -149,13 +178,23 @@ onBeforeMount(async () => {
   checkEmpty();
 
 });
+
+
+
+
+
 let showTimeZone = ref();
 showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 
-const gotoDetail = (id) => {
-  router.push({ name: "UserDetail", params: { id: id } });
-};
+const gotoDetail =(id)=>{
+  router.push({ name: 'Detail', params: { id: id } })
+}
+// const gotoDetail = (id) => {
+//   router.push({ name: "UserDetail", params: { id: id } });
+// };
+
+
 
 </script>
 
@@ -203,11 +242,12 @@ const gotoDetail = (id) => {
     <div class="mt-6" v-show="isShow" v-if="isAnnouncementActive">
       <table 
         class="table-auto overflow-hidden flex items-center justify-center border-black text-lg "
+        
       >
         <thead class="py-6">
           <tr class="table-row border">
             <th class="px-28 py-4">No.</th>
-            <th class="px-4 text-left">Title</th>
+            <th class=" text-left">Title</th>
             <th class="px-16">Category</th>
          
           </tr>
@@ -234,7 +274,39 @@ const gotoDetail = (id) => {
         </thead>
       </table>
 
+
+      <!-- ของใหม่ -->
+      <div v-if="totalPages > 1" class="flex justify-center items-center mt-8">
+  <ul class="pagination flex space-x-2">
+    <li v-if="currentPage > 1" @click="currentPage--">
+      <a href="#" class="bg-gray-200 hover:bg-gray-400 rounded px-3 py-1">Prev</a>
+    </li>
+    <li v-for="pageNumber in visiblePageNumbers" :key="pageNumber" :class="{ active: pageNumber === currentPage }" @click="currentPage = pageNumber">
+      <a href="#" :class="{ 'bg-gray-400': pageNumber === currentPage }" class="bg-gray-200 hover:bg-gray-400 rounded px-3 py-1">{{ pageNumber }}</a>
+    </li>
+    <li v-if="currentPage < totalPages" @click="currentPage++">
+      <a href="#" class="bg-gray-200 hover:bg-gray-400 rounded px-3 py-1">Next</a>
+    </li>
+  </ul>
+</div>
+
+
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="mt-6" v-show="isShow" v-else>
       <table
@@ -243,9 +315,9 @@ const gotoDetail = (id) => {
         <thead class="py-6">
           <tr class="table-row border">
             <th class="px-28 py-4">No.</th>
-            <th class="px-4 text-left">Title</th>
-            <th class="px-16">Category</th>
-            <th class="px-4">Close Date</th>
+            <th class=" text-left">Title</th>
+            <th class="px-16">Close Date</th>
+            <th class="px-4">Category</th>
          
           </tr>
           <tr
@@ -263,18 +335,33 @@ const gotoDetail = (id) => {
             >
               {{ item.announcementTitle }}
             </th>
-            <th>
-              {{ item.announcementCategory }}
-            </th>
             <th >
               {{ item.closeDate }}
             </th>
+            <th>
+              {{ item.announcementCategory }}
+            </th>
+           
            
           </tr>
         </thead>
       </table>
 
-     
+
+      <!-- ของใหม่ -->
+      <div v-if="totalPages > 1" class="flex justify-center items-center mt-8">
+  <ul class="pagination flex space-x-2">
+    <li v-if="currentPage > 1" @click="currentPage--">
+      <a href="#" class="bg-gray-200 hover:bg-gray-400 rounded px-3 py-1">Prev</a>
+    </li>
+    <li v-for="pageNumber in visiblePageNumbers" :key="pageNumber" :class="{ active: pageNumber === currentPage }" @click="currentPage = pageNumber">
+      <a href="#" :class="{ 'bg-gray-400': pageNumber === currentPage }" class="bg-gray-200 hover:bg-gray-400 rounded px-3 py-1">{{ pageNumber }}</a>
+    </li>
+    <li v-if="currentPage < totalPages" @click="currentPage++">
+      <a href="#" class="bg-gray-200 hover:bg-gray-400 rounded px-3 py-1">Next</a>
+    </li>
+  </ul>
+</div>
     </div>
   </div>
   

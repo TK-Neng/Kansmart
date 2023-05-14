@@ -133,7 +133,7 @@ const gotoDetail =(id)=>{
         <thead class="py-6 ">
           <tr class="table-row border ">
             <th class="px-28 py-4">No.</th>
-            <th class="px-4 text-left  ">Title</th>
+            <th class=" text-left  ">Title</th>
             <th class="px-16">Category</th>
             <th class="px-16">Publish Date</th>
             <th class="px-4">Close Date</th>
@@ -183,6 +183,8 @@ const gotoDetail =(id)=>{
           </tr>
         </thead>
       </table>
+
+      
     </div>
   </div>
 
