@@ -7,6 +7,7 @@ const router = useRouter();
 const data = ref([]);
 const isCheck = ref(false);
 const isCheck404 = ref(false);
+
 onBeforeMount(async () => {
   data.value = await getDataById(parseInt(params.id));
   if (data.value === 500) {
@@ -15,10 +16,6 @@ onBeforeMount(async () => {
   if (data.value === 404) {
     isCheck404.value = true;
   }
-  // if (data.value.announcementDisplay === "N") {
-  //   data.value.publishDate = "-";
-  //   data.value.closeDate = "-";
-  // } 
   
   if (data.value.publishDate === null) {
     data.value.publishDate = "-";
@@ -73,7 +70,7 @@ const gotoEdit = (id) =>{
         <h3 class="mt-5 ml-4">Close Date</h3>
         <h3 class="mt-5 ml-4 mb-5">Display</h3>
       </div>
-      <div class="ml-20 ann-item ">
+      <div class="ml-20 ann-item ann-title ann-category ann-publish-date ann-publish-date ann-close-date ann-description ann-display">
         <p class="mt-5 ml-4">{{ data.announcementTitle }}</p>
         <p class="mt-5 ml-4">{{ data.announcementCategory }}</p>
         <p class="mt-5 ml-4">{{ data.announcementDescription }}</p>
@@ -82,7 +79,7 @@ const gotoEdit = (id) =>{
         <p class="mt-5 ml-4 mb-5">{{ data.announcementDisplay }}</p>
       </div>
     </div>
-    <div class="ml-20">
+    <div class="ml-20 ann-button">
       <router-link :to="{ name: 'Main' }">
         <button
           class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16"

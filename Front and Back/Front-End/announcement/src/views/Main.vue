@@ -2,22 +2,26 @@
 import { getData, url } from "../composable/getData";
 import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from 'vue-router'
+
+
+// ตัวแปรที่ใช้ในการแสดงหน้าเว็บ
 const router = useRouter()
 const data = ref([]);
 const isShow = ref(false);
 const isCheck404 = ref(false);
 const colseShow = ref(false);
+let isCheckDelete = ref(false);
+let deleteId = ref();
+
+// ดึงข้อมูลจาก API มาเช็คว่ามีข้อมูลหรือไม่ และจัดการข้อมูลในส่วนของวันที่ เช็คEmptyด้วย
 onBeforeMount(async () => {
   data.value = await getData();
+  console.log(data.value);
+  console.log(data.value);
   if (data.value === 404) {
     isCheck404.value = true;
   }
   for (let i = 0; i < data.value.length; i++) {
-  //   if (data.value[i].announcementDisplay === "N") {
-  //     data.value[i].publishDate = "-";
-  //     data.value[i].closeDate = "-";
-  // }
-
     if (data.value[i].publishDate === null) {
       data.value[i].publishDate = "-";
     } if (data.value[i].closeDate === null) {
@@ -47,7 +51,6 @@ onBeforeMount(async () => {
     }
 
   }
-
   const checkEmpty = () => {
     if (data.value.length == 0) {
       isShow.value = false;
@@ -59,8 +62,12 @@ onBeforeMount(async () => {
   };
   checkEmpty();
 });
+
+//แสดง timezone ในbowser
 let showTimeZone = ref();
 showTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+// ลบข้อมูล
 const deleteData = async (deleteId) => {
   try {
     const res = await fetch(url + `/${deleteId}`, {
@@ -78,31 +85,36 @@ const deleteData = async (deleteId) => {
     alert(err.message);
   }
 };
-let isCheckDelete = ref(false);
-let deleteId = ref();
+
+// funtion ที่ใช้ในการเช็คว่าต้องการลบข้อมูลหรือไม่
 const checkDelete = (check, deleteid) => {
   if (check === true) {
     isCheckDelete.value = true;
     deleteId.value = deleteid;
   }
 };
+
+// funtion ที่ใช้ในการปิดการเช็คว่าต้องการลบข้อมูลหรือไม่
 const closeCheckDelete = (check) => {
   if (check === false) {
     isCheckDelete.value = false;
   }
 };
+
+// เป็น funtion ที่กดปุ่ม yes ในการลบข้อมูล
 const deleteNow =(check)=>{
   deleteData(deleteId.value);
   isCheckDelete.value = check;
 }
 
+// funtion ทีนี้ใช้ในการส่งไอดีไปหน้า Detail
 const gotoDetail =(id)=>{
   router.push({ name: 'Detail', params: { id: id } })
 }
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col w-full">
     <div class="text-center mt-2 text-3xl font-bold">
       <h1>SIT Announcement System (SAS)</h1>
     </div>
@@ -123,14 +135,17 @@ const gotoDetail =(id)=>{
     </div>
     <div v-show="colseShow">
       <div class="flex flex-col items-center justify-center ">
-        <div class="text-3xl font-bold mt-10">No Announcement</div>
+        <div class="text-3xl font-bold mt-10">
+          <h2>No Announcement</h2>
+        </div>
       </div>
     </div>
     <div class="mt-6" v-show="isShow">
       <table
-        class="table-auto overflow-hidden flex items-center justify-center border-black text-lg "
+        class="table-auto overflow-hidden flex items-center justify-center border-black text-lg 
+        "
       >
-        <thead class="py-6 ">
+        <thead class="py-6">
           <tr class="table-row border ">
             <th class="px-28 py-4">No.</th>
             <th class="px-4 text-left  ">Title</th>
@@ -141,7 +156,7 @@ const gotoDetail =(id)=>{
             <th class="px-20">Action</th>
           </tr>
           <tr
-            class="table-row border"
+            class="table-row border ann-item ann-title ann-category ann-publish-date ann-close-date ann-display"
             v-for="(item, index) of data"
             :key="index"
           >
@@ -149,28 +164,28 @@ const gotoDetail =(id)=>{
               {{ index + 1 }}
             </th>
             <th
-              class="max-w-sm overflow-hidden text-left "
+              class="max-w-sm overflow-hidden text-left"
               style="word-wrap: break-word"
             >
               {{ item.announcementTitle }}
             </th>
-            <th>
+            <th >
               {{ item.announcementCategory }}
             </th>
-            <th>
+            <th >
               {{ item.publishDate }}
             </th>
-            <th>
+            <th >
               {{ item.closeDate }}
             </th>
-            <th>
+            <th >
               {{ item.announcementDisplay }}
             </th>
             <th>
                 <button
                   class="w-20 hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center"
                  @click="gotoDetail(item.id)">
-                  View
+                  view
                 </button>
 
               <button
@@ -197,7 +212,7 @@ const gotoDetail =(id)=>{
         class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl"
       >
         <div class="top-10">
-          <p class="text-black text-center text-4xl mt-16">Error</p>
+          <p class="text-black text-center text-4xl mt-16">Error 404</p>
         </div>
         <div class="flex flex-col">
           <img
