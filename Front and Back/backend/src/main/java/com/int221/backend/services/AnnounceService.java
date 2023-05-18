@@ -8,15 +8,18 @@ import com.int221.backend.repositories.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AnnounceService {
@@ -32,7 +35,7 @@ public class AnnounceService {
     private ListMapper listMapper;
 
     public List<Announce> getAllAnnounce() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "publishDate","closeDate"));
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "publishDate", "closeDate"));
     }
 
     public Announce getAnnounce(Integer id) {
@@ -42,7 +45,7 @@ public class AnnounceService {
     }
 
 
-    public Announce addAnnounce(Announce newAnnounce){
+    public Announce addAnnounce(Announce newAnnounce) {
         return repository.saveAndFlush(newAnnounce);
     }
 
@@ -55,7 +58,7 @@ public class AnnounceService {
     }
 
 
-    public Announce updateAnnounce(Integer id, Announce announce){
+    public Announce updateAnnounce(Integer id, Announce announce) {
         Announce newAnnounce = repository.findById(id).orElseThrow(() ->
                 new ResourceAccessException(id + " does not exist "));
         newAnnounce.setAnnouncementTitle(announce.getAnnouncementTitle());
@@ -67,6 +70,54 @@ public class AnnounceService {
             newAnnounce.setAnnouncementCategory(announce.getAnnouncementCategory());
         }
         return repository.saveAndFlush(newAnnounce);
+    }
+
+//นี่ไง
+//    public List<Announce> getActiveAnnounces() {
+//        return repository.findActiveAnnounces();
+//    }
+//
+//    public Page<Announce> getAllAnnounce(Integer page, Integer size) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "publishDate","closeDate"));
+//        return repository.findAll(pageable);
+//    }
+
+    public Page<Announce> getAnnounce(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        return repository.findAll(pageable);
+    }
+
+    public Page<Announce> getAllAnnounce(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+//    public List<Announce> getAnnouncementByMode(String mode) {
+//        if (mode.equals("active")) {
+//            return repository.findActiveAnnounces();
+//        }
+//
+//    }
+
+    public List<Announce> getAnnouncementByMode(String mode) {
+        if (mode.equals("active")) {
+            List<Announce> announces = new ArrayList<>();
+            announces.addAll(repository.findAllAnnounceByDisplay("Y", ZonedDateTime.parse(ZonedDateTime.now().toString())));
+            announces.addAll(repository.findAllAnnounceByDisplayAndDate("Y", ZonedDateTime.parse(ZonedDateTime.now().toString())));
+            announces.addAll(repository.findAllAnnounceByDisplayWithoutDate("Y"));
+            announces.addAll(repository.findAllAnnounceByDisplayAndDateWithoutCategory("Y", ZonedDateTime.parse(ZonedDateTime.now().toString()), Sort.by(Sort.Direction.DESC, "publishDate", "closeDate")));
+
+            Comparator<Announce> byPublishDateAndCloseDate = Comparator.comparing((Announce a) -> a.getPublishDate() != null)
+                    .thenComparing((Announce a) -> a.getCloseDate() != null)
+                    .thenComparing(Announce::getPublishDate, Comparator.nullsFirst(Comparator.reverseOrder()))
+                    .thenComparing(Announce::getCloseDate, Comparator.nullsFirst(Comparator.reverseOrder()));
+
+            announces.sort(byPublishDateAndCloseDate);
+            return announces;
+        } else if (mode.equals("close")) {
+            return repository.findAllAnnounceByModeClose("Y", ZonedDateTime.parse(ZonedDateTime.now().toString()),Sort.by(Sort.Direction.DESC, "publishDate", "closeDate"));
+        } else {
+            return getAllAnnounce();
+        }
     }
 
 

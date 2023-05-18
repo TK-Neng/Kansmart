@@ -14,6 +14,5 @@ import java.io.Serializable;
 @Setter
 @Data
 public class CategoryDto implements Serializable {
-    private int id;
     private String categoryName;
 }

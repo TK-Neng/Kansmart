@@ -1,5 +1,6 @@
 package com.int221.backend.services;
 
+import com.int221.backend.entities.Announce;
 import com.int221.backend.entities.Category;
 import com.int221.backend.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +20,5 @@ public class CategoryService {
       return categoryRepository.findById(id).orElseThrow(()->
               new ResponseStatusException(HttpStatus.NOT_FOUND, "Category id" + " does not exist"));
   }
+
 }
