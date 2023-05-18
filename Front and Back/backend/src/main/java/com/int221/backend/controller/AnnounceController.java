@@ -32,14 +32,7 @@ public class AnnounceController {
     @Autowired
     private CategoryService categoryService;
 
-    //นี่ไง
 
-//
-//    @GetMapping("")
-//    public List<OutputAnnouceDto> getAnnounceDto() {
-//        List<Announce> announceList = service.getAllAnnounce();
-//        return listMapper.mapList(announceList, OutputAnnouceDto.class, modelMapper);
-//    }
 
     @GetMapping("")
     public List<OutputAnnouceDto> getAnnouncementByMode(@RequestParam(value = "mode", defaultValue = "all") String mode) {
@@ -78,50 +71,6 @@ public class AnnounceController {
         return modelMapper.map(announce, OutputAnnouceDto.class);
     }
 
-    //นี้ไง
-//    @GetMapping("")
-//    public String getAllAnnouncements() {
-//        List<Announce> announces = AnnounceService.getAllAnnounce();
-//        if (announces.isEmpty()) {
-//            return "No Announcement";
-//        }
-//
-//        Map<Category, List<Announce>> announceByCategory = new HashMap<>();
-//        for (Announce announce : announces) {
-//            Category category = announce.getAnnouncementCategory();
-//            if (category != null) {
-//                announceByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(announce);
-//            }
-//        }
-//        return toString();
-//
-//
-//
-//
-//    }
-//
-//    @GetMapping("")
-//    public Page<Announce> getAllAnnounce(
-//            @RequestParam(defaultValue = "0") Integer pageNo,
-//            @RequestParam(defaultValue = "5") Integer pageSize,
-//            @RequestParam(defaultValue = "publishDate") String sortBy
-//    ) {
-//        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-//        Page<Announce> page = service.getAllAnnounce(pageable);
-//
-//
-//
-//        boolean showPagination = page.getTotalPages() > 1 && page.getTotalPages() <= 10;
-//
-//        if (!showPagination && page.getTotalElements() > 0) {
-//            pageSize = Math.toIntExact(page.getTotalElements());
-//            pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-//            page = service.getAllAnnounce(pageable);
-//        }
-//
-//        page = new PageImpl<>(page.getContent(), pageable, page.getTotalElements());
-//
-//        return page;
-//    }
+
 
 }

@@ -72,15 +72,7 @@ public class AnnounceService {
         return repository.saveAndFlush(newAnnounce);
     }
 
-//นี่ไง
-//    public List<Announce> getActiveAnnounces() {
-//        return repository.findActiveAnnounces();
-//    }
-//
-//    public Page<Announce> getAllAnnounce(Integer page, Integer size) {
-//        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "publishDate","closeDate"));
-//        return repository.findAll(pageable);
-//    }
+
 
     public Page<Announce> getAnnounce(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
@@ -91,12 +83,7 @@ public class AnnounceService {
         return repository.findAll(pageable);
     }
 
-//    public List<Announce> getAnnouncementByMode(String mode) {
-//        if (mode.equals("active")) {
-//            return repository.findActiveAnnounces();
-//        }
-//
-//    }
+
 
     public List<Announce> getAnnouncementByMode(String mode) {
         if (mode.equals("active")) {

@@ -9,9 +9,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface AnnounceRepository extends JpaRepository<Announce, Integer> {
-//    @Query("SELECT a FROM Announce a WHERE a.announcementDisplay = 'Y'")
-//    List<Announce> findAllAnnounce();
-
 
     @Query("SELECT a FROM Announce a WHERE a.announcementDisplay = :display " +
             "AND (a.publishDate IS NULL AND a.closeDate IS NULL) " )
@@ -20,20 +17,17 @@ public interface AnnounceRepository extends JpaRepository<Announce, Integer> {
 
     @Query("SELECT a FROM Announce a WHERE a.announcementDisplay = :display " +
             "AND (a.publishDate <= :currentDate AND a.closeDate IS NULL) " +
-//            "OR (a.publishDate IS NULL AND a.closeDate IS NULL)) " +
             "AND a.announcementDisplay = 'Y'")
     List <Announce> findAllAnnounceByDisplay(String display, ZonedDateTime currentDate);
 
 
     @Query("SELECT a FROM Announce a WHERE a.announcementDisplay = :display " +
             "AND (a.publishDate <= :currentDate AND a.closeDate > :currentDate) " +
-//            "OR (a.publishDate IS NULL AND a.closeDate IS NULL)) " +
             "AND a.announcementDisplay = 'Y'")
     List<Announce> findAllAnnounceByDisplayAndDate(String display, ZonedDateTime currentDate);
 
     @Query("SELECT a FROM Announce a WHERE a.announcementDisplay = :display " +
             "AND (a.closeDate > :currentDate AND a.publishDate IS NULL) " +
-//            "OR (a.publishDate IS NULL AND a.closeDate IS NULL)) " +
             "AND a.announcementDisplay = 'Y'")
     List<Announce> findAllAnnounceByDisplayAndDateWithoutCategory(String display, ZonedDateTime currentDate, Sort by);
 

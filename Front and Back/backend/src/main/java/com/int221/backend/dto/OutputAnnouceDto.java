@@ -19,6 +19,5 @@ public class OutputAnnouceDto  implements Serializable {
     private ZonedDateTime publishDate;
     private  ZonedDateTime closeDate;
     private  String announcementDisplay;
-//    private Integer categoryId;
     private  String announcementCategory;
 }

@@ -31,10 +31,5 @@ public class CategoryController {
 
 
 
-//    @PostMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public OutputCategoryDto addCategory(@RequestBody Category newCategory){
-//        Category category = categoryService.addCategory(newCategory);
-//        return new OutputCategoryDto(category.getId(), category.getName());
-//    }
+
 }
