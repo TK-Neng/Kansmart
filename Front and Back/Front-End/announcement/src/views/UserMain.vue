@@ -252,7 +252,6 @@ const gotoDetail = (id) => {
     </li>
   </ul>
 </div>
-     
 
 
     </div>
@@ -301,6 +300,7 @@ const gotoDetail = (id) => {
     </li>
   </ul>
 </div>
+    
 
     </div>
   </div>
