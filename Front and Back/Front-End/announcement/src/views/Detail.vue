@@ -19,7 +19,7 @@ onBeforeMount(async () => {
   //   data.value.publishDate = "-";
   //   data.value.closeDate = "-";
   // } 
-  
+
   if (data.value.publishDate === null) {
     data.value.publishDate = "-";
   } if (data.value.closeDate === null) {
@@ -53,9 +53,9 @@ const closeError = () => {
   isCheck404.value = false;
 };
 
-
-const gotoEdit = (id) =>{
-  router.push({name: 'Edit', params: {id: id}})
+// ไปหน้าเเก้ไขข้อมูล
+const gotoEdit = (id) => {
+  router.push({ name: 'Edit', params: { id: id } })
 }
 </script>
 
@@ -84,47 +84,33 @@ const gotoEdit = (id) =>{
     </div>
     <div class="ml-20">
       <router-link :to="{ name: 'Main' }">
-        <button
-          class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16"
-        >
+        <button class="hover:bg-gray-500 font-bold py-1 px-2 rounded bg-gray-300 justify-center w-16">
           Back
-        </button></router-link
-      >
+        </button></router-link>
       <!-- <Add :announcement="editAnnouncement" v-show="false"/> -->
-        <button
-          class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center ml-3 w-16"
-          @click="gotoEdit(data.id)">
-          Edit
-        </button>
+      <button class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center ml-3 w-16"
+        @click="gotoEdit(data.id)">
+        Edit
+      </button>
     </div>
   </div>
 
   <div v-show="isCheck404">
     <div class="popup">
-      <div
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"
-      ></div>
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"></div>
     </div>
     <div class="popup">
-      <div
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl"
-      >
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl">
         <div class="top-10">
           <p class="text-black text-center text-4xl mt-16">Error</p>
         </div>
         <div class="flex flex-col">
-          <img
-            class="w-1/3 m-auto mt-20"
-            src="./../assets/Pic/Error.png"
-            alt=""
-          />
+          <img class="w-1/3 m-auto mt-20" src="./../assets/Pic/Error.png" alt="" />
         </div>
         <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
-          <router-link :to="{ name: 'Main' }"
-            ><button
+          <router-link :to="{ name: 'Main' }"><button
               class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
-              @click="closeError"
-            >
+              @click="closeError">
               Close
             </button>
           </router-link>
@@ -133,31 +119,23 @@ const gotoEdit = (id) =>{
     </div>
   </div>
 
+
+  <!-- หน้า error 404 -->
   <div v-show="isCheck">
     <div class="popup">
-      <div
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"
-      ></div>
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"></div>
     </div>
     <div class="popup">
-      <div
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl"
-      >
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl">
         <div class="top-10">
           <p class="text-black text-center text-4xl mt-16">No Announcement</p>
         </div>
         <div class="flex flex-col">
-          <img
-            class="w-1/3 m-auto mt-20"
-            src="./../assets/Pic/Error.png"
-            alt=""
-          />
+          <img class="w-1/3 m-auto mt-20" src="./../assets/Pic/Error.png" alt="" />
         </div>
         <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
-          <router-link :to="{ name: 'Main' }"
-            ><button
-              class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
-           >
+          <router-link :to="{ name: 'Main' }"><button
+              class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col">
               Back
             </button>
           </router-link>
