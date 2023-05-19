@@ -3,6 +3,7 @@ package com.int221.backend.controller;
 import ch.qos.logback.core.model.Model;
 import com.int221.backend.dto.AnnounceDto;
 import com.int221.backend.dto.OutputAnnouceDto;
+import com.int221.backend.dto.PageDTO;
 import com.int221.backend.entities.Announce;
 import com.int221.backend.entities.Category;
 import com.int221.backend.mapper.ListMapper;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -32,10 +34,11 @@ public class AnnounceController {
     @Autowired
     private CategoryService categoryService;
 
+    private final AnnounceService announceService;
 
 
     @GetMapping("")
-    public List<OutputAnnouceDto> getAnnouncementByMode(@RequestParam(value = "mode", defaultValue = "all") String mode) {
+    public List<OutputAnnouceDto> getAnnouncementByMode(@RequestParam(defaultValue = "all") String mode) {
         List<Announce> announces = service.getAnnouncementByMode(mode);
         return listMapper.mapList(announces, OutputAnnouceDto.class, modelMapper);
     }
@@ -72,5 +75,18 @@ public class AnnounceController {
     }
 
 
+
+    public AnnounceController(AnnounceService announceService) {
+        this.announceService = announceService;
+    }
+
+
+    @GetMapping("/pages")
+    public PageDTO<OutputAnnouceDto> getAllAnnounce(@RequestParam(defaultValue = "0") Integer page,
+                                                    @RequestParam(defaultValue = "5") Integer size,
+                                                    @RequestParam(defaultValue = "all") String mode) {
+        Page<Announce> announcePage = service.getPageAnnounce(page, size, mode);
+        return listMapper.toPageDTO(announcePage, OutputAnnouceDto.class, modelMapper);
+    }
 
 }

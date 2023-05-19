@@ -8,14 +8,13 @@ import com.int221.backend.repositories.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -74,17 +73,6 @@ public class AnnounceService {
 
 
 
-    public Page<Announce> getAnnounce(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-        return repository.findAll(pageable);
-    }
-
-    public Page<Announce> getAllAnnounce(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-
-
     public List<Announce> getAnnouncementByMode(String mode) {
         if (mode.equals("active")) {
             List<Announce> announces = new ArrayList<>();
@@ -106,6 +94,54 @@ public class AnnounceService {
             return getAllAnnounce();
         }
     }
+
+
+
+
+    public AnnounceService(AnnounceRepository repository) {
+        this.repository = repository;
+    }
+
+
+
+    public Page<Announce> getPageAnnounce(int page, int size, String mode) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "publishDate", "closeDate"));
+
+        if (mode.equals("active")) {
+            List<Announce> announces = new ArrayList<>();
+            announces.addAll(repository.findAllAnnounceByDisplay("Y", ZonedDateTime.parse(ZonedDateTime.now().toString())));
+            announces.addAll(repository.findAllAnnounceByDisplayAndDate("Y", ZonedDateTime.parse(ZonedDateTime.now().toString())));
+            announces.addAll(repository.findAllAnnounceByDisplayWithoutDate("Y"));
+            announces.addAll(repository.findAllAnnounceByDisplayAndDateWithoutCategory("Y", ZonedDateTime.parse(ZonedDateTime.now().toString()), Sort.by(Sort.Direction.DESC, "publishDate", "closeDate")));
+
+            Comparator<Announce> byPublishDateAndCloseDate = Comparator.comparing((Announce a) -> a.getPublishDate() != null && a.getCloseDate() != null)
+                    .thenComparing(Announce::getPublishDate, Comparator.nullsFirst(Comparator.reverseOrder()))
+                    .thenComparing(Announce::getCloseDate, Comparator.nullsFirst(Comparator.reverseOrder()))
+                    .thenComparing(Announce::getId, Comparator.reverseOrder());
+
+            announces.sort(byPublishDateAndCloseDate);
+
+            int start = (int) pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), announces.size());
+            return new PageImpl<>(announces.subList(start, end), pageable, announces.size());
+        } else if (mode.equals("close")) {
+            List<Announce> announces = new ArrayList<>();
+            announces.addAll(repository.findAllAnnounceByModeClose("Y", ZonedDateTime.parse(ZonedDateTime.now().toString()), Sort.by(Sort.Direction.DESC, "publishDate", "closeDate")));
+
+
+
+            int start = (int) pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), announces.size());
+            return new PageImpl<>(announces.subList(start, end), pageable, announces.size());
+
+
+        } else {
+            throw new IllegalArgumentException("Invalid mode: " + mode);
+        }
+
+    }
+
+
 
 
 
