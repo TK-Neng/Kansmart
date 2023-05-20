@@ -13,11 +13,6 @@ onBeforeMount(async () => {
     isCheck404.value = true;
   }
   for (let i = 0; i < data.value.length; i++) {
-    //   if (data.value[i].announcementDisplay === "N") {
-    //     data.value[i].publishDate = "-";
-    //     data.value[i].closeDate = "-";
-    // }
-
     if (data.value[i].publishDate === null) {
       data.value[i].publishDate = "-";
     }

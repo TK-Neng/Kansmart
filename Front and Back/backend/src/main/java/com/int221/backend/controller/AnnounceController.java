@@ -86,8 +86,7 @@ public class AnnounceController {
                                                     @RequestParam(defaultValue = "5") Integer size,
                                                     @RequestParam(defaultValue = "all") String mode,
                                                     @RequestParam(defaultValue = "0") Integer category) {
-
-
+        
         if(category == 0){
             Page<Announce> announcePage = service.getPageAnnounce(page, size, mode);
             return listMapper.toPageDTO(announcePage, OutputAnnouceDto.class, modelMapper);
