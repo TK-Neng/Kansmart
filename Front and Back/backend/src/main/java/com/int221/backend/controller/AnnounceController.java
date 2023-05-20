@@ -2,6 +2,7 @@ package com.int221.backend.controller;
 
 import ch.qos.logback.core.model.Model;
 import com.int221.backend.dto.AnnounceDto;
+import com.int221.backend.dto.CategoryDto;
 import com.int221.backend.dto.OutputAnnouceDto;
 import com.int221.backend.dto.PageDTO;
 import com.int221.backend.entities.Announce;
@@ -80,13 +81,22 @@ public class AnnounceController {
         this.announceService = announceService;
     }
 
-
     @GetMapping("/pages")
     public PageDTO<OutputAnnouceDto> getAllAnnounce(@RequestParam(defaultValue = "0") Integer page,
                                                     @RequestParam(defaultValue = "5") Integer size,
-                                                    @RequestParam(defaultValue = "all") String mode) {
-        Page<Announce> announcePage = service.getPageAnnounce(page, size, mode);
-        return listMapper.toPageDTO(announcePage, OutputAnnouceDto.class, modelMapper);
+                                                    @RequestParam(defaultValue = "all") String mode,
+                                                    @RequestParam(defaultValue = "0") Integer category) {
+
+
+        if(category == 0){
+            Page<Announce> announcePage = service.getPageAnnounce(page, size, mode);
+            return listMapper.toPageDTO(announcePage, OutputAnnouceDto.class, modelMapper);
+        }
+        else{
+            CategoryDto categories = modelMapper.map(categoryService.getCategoryById(category), CategoryDto.class);
+            Page<Announce> announcePage = service.getPageAnnounceCategory(page, size, mode, categories, category);
+            return listMapper.toPageDTO(announcePage, OutputAnnouceDto.class, modelMapper);
+        }
     }
 
 }

@@ -27,5 +27,5 @@ public class AnnounceDto implements Serializable {
     private  ZonedDateTime closeDate;
     private  String announcementDisplay;
     private Integer categoryId;
-//    private  String announcementCategory;
+
 }
