@@ -9,10 +9,12 @@ const data = ref([]);
 const isShow = ref(false);
 const isCheck404 = ref(false);
 const colseShow = ref(false);
-const categories = ref(["All","ทั่วไป", "ทุนการศึกษา", "หางาน", "ฝึกงาน"]);
+const categories = ref(["ทั้งหมด","ทั่วไป", "ทุนการศึกษา", "หางาน", "ฝึกงาน"]);
 let isAnnouncementActive = computed(() => announcer.mode === "active");
 const toggleAnnouncementState = () => {
   isAnnouncementActive.value = !isAnnouncementActive.value
+  announcer.page = 0
+  currentPage.value = 1
   checkmode()
   updateMode()
 };
@@ -26,7 +28,7 @@ const checkmode =()=>{
   }
 }
 
-const cate = ref("All");
+const cate = ref("ทั้งหมด");
 
 watch (cate, (newVal) => {
   if(newVal === "ทั่วไป"){
@@ -49,12 +51,11 @@ watch (cate, (newVal) => {
     currentPage.value = 1
     updateMode()
   }
-  else if(newVal === "All"){
+  else if(newVal === "ทั้งหมด"){
     announcer.category = ""
     currentPage.value = 1
     updateMode()
   }
-  console.log(announcer.category)
 })
 
 
@@ -72,11 +73,11 @@ watch (filteredData, (newVal) => {
 
 
 //  ของใหม่
-const currentPage = ref(1);
+const currentPage = ref(announcer.currentPage);
 const totalPages = ref();
 const visiblePageNumbers = computed(() => {
   const pageNumbers = [];
-  const maxVisiblePageNumbers = 5;
+  const maxVisiblePageNumbers = 10;
   let startPageNumber = currentPage.value - Math.floor(maxVisiblePageNumbers / 2);
   startPageNumber = Math.max(1, startPageNumber);
   let endPageNumber = startPageNumber + maxVisiblePageNumbers - 1;
@@ -88,6 +89,7 @@ const visiblePageNumbers = computed(() => {
 });
 watch(currentPage, (newVal) => {
   announcer.page = newVal-1
+  announcer.currentPage = newVal
   updateMode()
 })
 

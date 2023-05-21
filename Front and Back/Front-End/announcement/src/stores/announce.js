@@ -6,6 +6,7 @@ export const useAnnounceStore = defineStore('announcer', () => {
     const category = ref("")
     const page  = ref(0)
     const size = ref(5)
+    const currentPage = ref(1)
     const getDataPage = async () => {
         try {
           const res = await fetch(url+`/pages?mode=${mode.value}&category=${category.value}&page=${page.value}&size=${size.value}`);
@@ -24,5 +25,5 @@ export const useAnnounceStore = defineStore('announcer', () => {
         }
       };
 
-    return {mode , category , page, getDataPage}
+    return {mode , category , page, getDataPage,currentPage}
 })

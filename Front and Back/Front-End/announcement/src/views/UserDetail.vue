@@ -4,7 +4,6 @@ import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAnnounceStore } from "@/stores/announce";
 const announcer = useAnnounceStore();
-console.log(announcer.mode);
 const { params } = useRoute();
 const router = useRouter();
 const data = ref([]);
@@ -18,7 +17,6 @@ if (announcer.mode === "active") {
   isClosedDateVisible.value = true;
 
 }
-
 onBeforeMount(async () => {
   data.value = await getDataById(parseInt(params.id));
   if (data.value === 500) {
@@ -27,10 +25,6 @@ onBeforeMount(async () => {
   if (data.value === 404) {
     isCheck404.value = true;
   }
-  // if (data.value.announcementDisplay === "N") {
-  //   data.value.publishDate = "-";
-  //   data.value.closeDate = "-";
-  // } 
 
   if (data.value.publishDate === null) {
     data.value.publishDate = "-";
