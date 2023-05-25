@@ -49,7 +49,6 @@ const checkDisplay = () => {
     updatedAnnouncement.value.announcementDisplay = Display.N;
   }
   changeDate()
-  intCategory()
 }
 const PublishDate = ref();
 const CloseDate = ref();
@@ -57,6 +56,7 @@ const PublishTime = ref();
 const CloseTime = ref();
 let datePublish = ref();
 let dateClose = ref();
+
 
 //ดูวันที่ ถ้าไม่ใส่ให้เป็น null ถ้าใส่ก็ไม่เปลี่ยนอะไร
 const changeDate = () => {
@@ -98,6 +98,41 @@ const addNewAnnounce = async (newAnnounce) => {
     console.log(error)
     alert(error.message)
   }
+}
+
+const checkValidate = (updatedAnnouncement) =>{
+  intCategory()
+  if(updatedAnnouncement.announcementTitle === ""){
+    alert("กรุณากรอกข้อมูลให้ครบถ้วน")
+  }else if(updatedAnnouncement.announcementDescription === ""){
+    alert("กรุณากรอกข้อมูลให้ครบถ้วน")
+  }else if(updatedAnnouncement.categoryId === 0){
+    alert("กรุณากรอกข้อมูลให้ครบถ้วน")
+  }
+  if(PublishDate.value != undefined){
+    if(PublishTime.value === undefined){
+      alert("กรุณากรอกเวลาPublish Dateให้ครบถ้วน")
+    }
+  }
+  if(PublishTime.value != undefined){
+      if(PublishDate.value === undefined){
+        alert("กรุณากรอกวันที่Publish Dateให้ครบถ้วน")
+      }
+  }
+    if(CloseDate.value != undefined){
+    if(CloseTime.value === undefined){
+      alert("กรุณากรอกเวลาClose Dateให้ครบถ้วน")
+    }}
+      if(CloseTime.value != undefined){
+        if(CloseDate.value === undefined){
+          alert("กรุณากรอกวันที่Close Dateให้ครบถ้วน")
+        }}
+        else{
+          addNewAnnounce(updatedAnnouncement)
+        }
+        if(PublishDate.value != undefined && PublishTime.value != undefined && CloseDate.value != undefined && CloseTime.value != undefined){
+          addNewAnnounce(updatedAnnouncement)
+        }
 }
 </script>
 
@@ -165,7 +200,7 @@ const addNewAnnounce = async (newAnnounce) => {
 
 
         <button class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center  w-20"
-          @click="addNewAnnounce(updatedAnnouncement)">
+          @click="checkValidate(updatedAnnouncement)">
           Submit
         </button>
 

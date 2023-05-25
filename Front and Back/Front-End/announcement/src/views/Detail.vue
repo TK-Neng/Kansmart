@@ -95,33 +95,9 @@ const gotoEdit = (id) => {
     </div>
   </div>
 
-  <div v-show="isCheck404">
-    <div class="popup">
-      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"></div>
-    </div>
-    <div class="popup">
-      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-white rounded-xl">
-        <div class="top-10">
-          <p class="text-black text-center text-4xl mt-16">Error</p>
-        </div>
-        <div class="flex flex-col">
-          <img class="w-1/3 m-auto mt-20" src="./../assets/Pic/Error.png" alt="" />
-        </div>
-        <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
-          <router-link :to="{ name: 'Main' }"><button
-              class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col"
-              @click="closeError">
-              Close
-            </button>
-          </router-link>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <!-- หน้า error 404 -->
-  <div v-show="isCheck">
+  <div v-show="isCheck404">
     <div class="popup">
       <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-black opacity-60"></div>
     </div>
@@ -136,7 +112,7 @@ const gotoEdit = (id) => {
         <div class="flex flex-col fixed bottom-10 left-1/2 -translate-x-1/2">
           <router-link :to="{ name: 'Main' }"><button
               class="text-center font-bold bg-gray-300 but text-gray-800 m-2 p-4 mb-4 text-2xl rounded-full hover:bg-gray-400 transition duration-500 ease-in-out flex-col">
-              Back
+              Close
             </button>
           </router-link>
         </div>

@@ -1,6 +1,8 @@
 package com.int221.backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +25,13 @@ public class Announce {
     private Integer id;
 
     @Column(name = "announcementTitle", nullable = false, length = 200)
+    @NotNull(message = "must not be null")
+    @Size(min = 1, max = 200, message = "size must be between 1 and 200")
     private String announcementTitle;
 
     @Column(name = "announcementDescription", nullable = false, length = 10000)
+    @NotNull(message = "must not be null")
+    @Size(min = 1, max = 10000, message = "size must be between 1 and 10000")
     private String announcementDescription;
 
 
