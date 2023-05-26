@@ -1,26 +1,32 @@
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, watch, computed } from "vue";
 import { url, getDataById } from "../composable/getData";
 import { useRoute, useRouter } from "vue-router";
 const { params } = useRoute();
 const router = useRouter();
 const data = ref([]);
-
-const updatedAnnouncement = ref({});
+const updatedAnnouncement = ref([]);
 const PublishinDate = ref();
 const CloseinDate = ref();
-
 const publishDate = ref();
 const publishTime = ref();
 const closeDate = ref();
 const closeTime = ref();
 const Data = ref([]);
+const checkDis = ref();
+const checkTitle = ref();
+const checkCate = ref();
+const checkDes = ref();
+const checkPhDate = ref();
+const checkPhTime = ref();
+const checkChDate = ref();
+const checkChTime = ref();
+const isDisabled = ref(true);
 const Display = {
   Y: "Y",
   N: "N",
 };
 const myCheckbox = ref();
-
 // ดู checkbox ว่าติ๊กไหม
 const checkDisplay = () => {
   if (myCheckbox.value === true) {
@@ -59,6 +65,9 @@ onBeforeMount(async () => {
     announcementDisplay: updatedAnnouncement.value.announcementDisplay,
     categoryId: 0,
   };
+  checkTitle.value = updatedAnnouncement.value.announcementTitle;
+  checkCate.value = updatedAnnouncement.value.announcementCategory;
+  checkDes.value = updatedAnnouncement.value.announcementDescription;
   if (data.value.publishDate !== null) {
     let date = new Date(updatedAnnouncement.value.publishDate);
     let time = new Date(updatedAnnouncement.value.publishDate);
@@ -66,6 +75,8 @@ onBeforeMount(async () => {
     date = date.toLocaleDateString("sv-SE").substring(0, 10);
     publishDate.value = date;
     publishTime.value = time;
+    checkPhDate.value = date;
+    checkPhTime.value = time;
   }
   if (data.value.closeDate !== null) {
     let date1 = new Date(updatedAnnouncement.value.closeDate);
@@ -74,15 +85,18 @@ onBeforeMount(async () => {
     date1 = date1.toLocaleDateString("sv-SE").substring(0, 10);
     closeDate.value = date1;
     closeTime.value = time1;
+    checkChDate.value = date1;
+    checkChTime.value = time1;
   }
 
   if (updatedAnnouncement.value.announcementDisplay === "N") {
     myCheckbox.value = false;
+    checkDis.value = false;
   } else {
     myCheckbox.value = true;
+    checkDis.value = true;
   }
 });
-
 const categories = ref(["ทั่วไป", "ทุนการศึกษา", "หางาน", "ฝึกงาน"]);
 
 const PublishDate = ref(publishDate);
@@ -146,6 +160,93 @@ const modifyAnmounce = async (updatedAnmounce, editAnnounce) => {
     alert(error);
   }
 };
+
+watch(myCheckbox, (newVar,oldVar) => {
+  if(oldVar !== undefined){
+    if(newVar !== oldVar){
+      if(newVar === checkDis.value){
+        isDisabled.value = true
+      }else{
+        isDisabled.value = false
+      }
+    }
+  }
+});
+watch(
+  () => updatedAnnouncement.value.announcementTitle,
+  (newVal, oldVal) => {
+    if (oldVal !== undefined && newVal !== oldVal) {
+      if (newVal === checkTitle.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+  }
+);
+
+watch(
+  () => updatedAnnouncement.value.announcementCategory,
+  (newVal, oldVal) => {
+    if (oldVal !== undefined && newVal !== oldVal) {
+      if (newVal === checkCate.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+  }
+);
+watch(
+  () => updatedAnnouncement.value.announcementDescription,
+  (newVal, oldVal) => {
+    if (oldVal !== undefined && newVal !== oldVal) {
+      if (newVal === checkDes.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+  }
+);
+watch(
+  [() => PublishDate.value, () => PublishTime.value, () => CloseDate.value, () => CloseTime.value],
+  ([newDate, newTime, newCloseDate, newCloseTime], [oldDate, oldTime, oldCloseDate, oldCloseTime]) => {
+    if (oldDate !== undefined && newDate !== oldDate) {
+      // ดำเนินการตามเงื่อนไขที่ต้องการ
+      if (newDate === checkPhDate.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+    if (oldTime !== undefined && newTime !== oldTime) {
+      // ดำเนินการตามเงื่อนไขที่ต้องการ
+      if (newTime === checkPhTime.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+    if (oldCloseDate !== undefined && newCloseDate !== oldCloseDate) {
+      // ดำเนินการตามเงื่อนไขที่ต้องการ
+      if (newCloseDate === checkChDate.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+    if (oldCloseTime !== undefined && newCloseTime !== oldCloseTime) {
+      // ดำเนินการตามเงื่อนไขที่ต้องการ
+      if (newCloseTime === checkChTime.value) {
+        isDisabled.value = true;
+      } else {
+        isDisabled.value = false;
+      }
+    }
+  }
+);
+
 </script>
 
 <template>
@@ -214,7 +315,7 @@ const modifyAnmounce = async (updatedAnmounce, editAnnounce) => {
 
       <div class="mt-2">
         <button class="hover:bg-green-500 font-bold py-1 px-2 rounded bg-green-300 justify-center w-20"
-          @click="modifyAnmounce(updatedAnnouncement, Data)">
+          @click="modifyAnmounce(updatedAnnouncement, Data)" :disabled="isDisabled">
           Edit
         </button>
 

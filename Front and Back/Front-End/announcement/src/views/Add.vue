@@ -102,13 +102,25 @@ const addNewAnnounce = async (newAnnounce) => {
 
 const checkValidate = (updatedAnnouncement) =>{
   intCategory()
-  if(updatedAnnouncement.announcementTitle === ""){
-    alert("กรุณากรอกข้อมูลให้ครบถ้วน")
-  }else if(updatedAnnouncement.announcementDescription === ""){
-    alert("กรุณากรอกข้อมูลให้ครบถ้วน")
-  }else if(updatedAnnouncement.categoryId === 0){
-    alert("กรุณากรอกข้อมูลให้ครบถ้วน")
-  }
+  if (updatedAnnouncement.announcementTitle === null) {
+    alert("ใส่ข้อความ");
+  } else if (updatedAnnouncement.announcementTitle.trim() === "") {
+    alert("Title ห้ามเว้นว่าง");
+  } else if (
+    updatedAnnouncement.announcementTitle.length < 1 ||
+    updatedAnnouncement.announcementTitle.length > 200
+  ) {
+    alert("ใส่ข้อความมากกว่า 1 ตัวอักษรแต่ไม่เกิน 200 ตัวอักษร");
+  } else if (updatedAnnouncement.announcementDescription.trim() === "") {
+    alert("Description ห้ามเว้นว่าง");
+  } else if (
+    updatedAnnouncement.announcementDescription.length < 1 ||
+    updatedAnnouncement.announcementDescription.length > 10000
+  ) {
+    alert("ใส่ข้อความมากกว่า 1 ตัวอักษรแต่ไม่เกิน 10,000 ตัวอักษร");
+  } else if (updatedAnnouncement.announcementDescription === "") {
+    alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } 
   if(PublishDate.value != undefined){
     if(PublishTime.value === undefined){
       alert("กรุณากรอกเวลาPublish Dateให้ครบถ้วน")

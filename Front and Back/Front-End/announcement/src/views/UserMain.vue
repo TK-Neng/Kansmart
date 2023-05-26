@@ -78,15 +78,19 @@ const totalPages = ref();
 const visiblePageNumbers = computed(() => {
   const pageNumbers = [];
   const maxVisiblePageNumbers = 10;
-  let startPageNumber = currentPage.value - Math.floor(maxVisiblePageNumbers / 2);
-  startPageNumber = Math.max(1, startPageNumber);
-  let endPageNumber = startPageNumber + maxVisiblePageNumbers - 1;
-  endPageNumber = Math.min(totalPages.value, endPageNumber);
+  
+  let startPageNumber = Math.max(1, currentPage.value - Math.floor(maxVisiblePageNumbers / 2));
+  let endPageNumber = Math.min(startPageNumber + maxVisiblePageNumbers - 1, totalPages.value);
+  if (endPageNumber - startPageNumber + 1 < maxVisiblePageNumbers) {
+    startPageNumber = Math.max(1, endPageNumber - maxVisiblePageNumbers + 1);
+  }
   for (let i = startPageNumber; i <= endPageNumber; i++) {
     pageNumbers.push(i);
   }
   return pageNumbers;
 });
+
+
 watch(currentPage, (newVal) => {
   announcer.page = newVal-1
   announcer.currentPage = newVal
