@@ -72,3 +72,41 @@
 ## 64130500050 Poonnawish Karnsamart
 ### หน้าที่ความรับผิดชอบ(33%)
 * Frontend
+
+---
+# Week4 Survey
+### ประชุมครั้งแรก 
+* sprint 3 มี 6 pbi 
+* เเก้งานเก่าที่ติด error
+* ทำ backend คร่าวๆ ต่อ
+### ประชุมครั้งที่สอง 
+* ทำ sprint 3 ต่อ โดยที่ ทำ pbi 8 9
+### ประชุมครั้งที่สาม
+* ติด backend แต่ front เสร็จแล้ว
+
+---
+## 64130500025 Techatham Kanjanasuttakul
+### หน้าที่ความรับผิดชอบ(34%)
+* Frontend
+---
+## 64130500036 Thanesorn Khiewboriboon
+### หน้าที่ความรับผิดชอบ(33%)
+* Backend
+---
+## 64130500050 Poonnawish Karnsamart
+### หน้าที่ความรับผิดชอบ(33%)
+* Frontend
+
+---
+# Week5 Survey
+### ประชุมครั้งแรก 
+* ติดฝั่ง Backend เยอะ Pbi 8 9 10
+* Front end ทำถึง 10 อาจจะทำถึง 12 13
+* เเก้ Backend จะได้ทำ Sprint 4 ต่อ
+### ประชุมครั้งที่สอง 
+* จากครั้งที่เเล้ว ให้ ไปทำ backend sprint 3 ทำ 8 9 10 เสร็จเเล้ว
+* ฝั่ง frontend ทำรอเเล้ว 10 กับ 11
+* จะทำ PBI  11 12 อาจจะทำ 13 ด้วย
+### ประชุมครั้งที่สาม
+* frontend ถึง pbi 12
+* backend ถึง pbi 12
