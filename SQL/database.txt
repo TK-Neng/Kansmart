@@ -53,6 +53,9 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 use announcements;
+insert into categories (categoryId, categoryName)
+values (1, 'ทั่วไป'), (2, 'ทุนการศึกษา'), (3, 'หางาน'), (4, 'ฝึกงาน');
+
 insert into announces (announcementId, announcementTitle, announcementDescription, publishDate, closeDate, announcementDisplay, categories_categoryId)
 values (1, 'บริษัท เน็ตเซอร์พลัส จํากัด รับสมัครงาน 2 ตําแหน่ง', 'บริษัท เน็ตเซอร์พลัส จํากัด เปิดรับสมัครงาน 2 ตําแหน่ง Application Support และ Customer Support', null, null, 'N', 3),
 (2, 'รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท "ทุนจ้างงาน" 2/2565', 'คณะ ฯ ประกาศรายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท "ทุนจ้างงาน" ประจําภาคการศึกษา 2/2565', null, '2023-05-31 18:00:00+07:00', 'Y', 2),
