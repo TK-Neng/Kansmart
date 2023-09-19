@@ -51,3 +51,13 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+use announcements;
+insert into announces (announcementId, announcementTitle, announcementDescription, publishDate, closeDate, announcementDisplay, categories_categoryId)
+values (1, 'บริษัท เน็ตเซอร์พลัส จํากัด รับสมัครงาน 2 ตําแหน่ง', 'บริษัท เน็ตเซอร์พลัส จํากัด เปิดรับสมัครงาน 2 ตําแหน่ง Application Support และ Customer Support', null, null, 'N', 3),
+(2, 'รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท "ทุนจ้างงาน" 2/2565', 'คณะ ฯ ประกาศรายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท "ทุนจ้างงาน" ประจําภาคการศึกษา 2/2565', null, '2023-05-31 18:00:00+07:00', 'Y', 2),
+(3, 'แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565', 'ประกาศมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี เรื่องแนวทางปฎิบัติการสอบออนไลน์ พ.ศ. 2565', '2023-01-27 06:00:00+07:00', null, 'Y', 1),
+(4, 'กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566', 'ขอเชิญนักศึกษาทุกชั้นปี เข้าร่วมกิจกรรมพี่อ้อย พี่ฉอด On Tour', '2023-04-19 06:00:00+07:00','2023-05-08 18:00:00+07:00', 'Y', 1);
+SET GLOBAL time_zone = '+00:00';
+
+SET time_zone = '+00:00';
